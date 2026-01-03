@@ -13,6 +13,9 @@ export const metadata: Metadata = {
   title: 'Angular Esports - Competitive Gaming Platform',
   description:
     'Join the ultimate esports community at Angular Esports. Participate in top-tier tournaments like Valorant Ultimate Showdown Battleground 1.0, compete for prize pools, and rise through the ranks. Registration is open!',
+  icons: {
+    icon: '/favicon.ico',
+  },
 };
 
 export default function RootLayout({
