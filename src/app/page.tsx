@@ -1,3 +1,5 @@
 export default function Home() {
-  return <main className="">{/* Home page content will go here */}</main>;
+  return (
+    <main className="h-[200dvh]">{/* Home page content will go here */}</main>
+  );
 }
