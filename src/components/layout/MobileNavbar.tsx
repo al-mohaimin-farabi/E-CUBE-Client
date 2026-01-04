@@ -80,13 +80,15 @@ const MobileNavbar = ({ isVisible }: MobileNavbarProps) => {
         transition={{ duration: 0.3 }}
         className="layout-padding bg-card @container fixed top-0 right-0 left-0 z-50 flex h-16 items-center justify-between lg:hidden"
       >
-        <Image
-          src="/assets/navlogo.svg"
-          alt="logo"
-          width={120}
-          height={40}
-          className="h-8 w-auto object-contain @sm:h-10"
-        />
+        <Link href="/">
+          <Image
+            src="/assets/navlogo.svg"
+            alt="logo"
+            width={120}
+            height={40}
+            className="h-8 w-auto object-contain @sm:h-10"
+          />
+        </Link>
 
         {/* Hamburger Button - Classic 3 lines to X */}
         <button
@@ -97,7 +99,7 @@ const MobileNavbar = ({ isVisible }: MobileNavbarProps) => {
           <div
             className={cn(
               'flex flex-col items-center justify-center gap-1.5 transition-transform duration-500 ease-in-out',
-              isMenuOpen ? 'rotate-[360deg]' : 'rotate-0'
+              isMenuOpen ? 'rotate-360' : 'rotate-0'
             )}
           >
             <span

@@ -2,6 +2,8 @@
 
 import { ScrollArea } from '@/components/ui/scroll-area';
 import Navbar from '@/components/layout/Navbar';
+import Footer from '@/components/layout/Footer';
+import { DebugWidthManager } from '@/components/dev/DebugWidthManager';
 import { ReactNode, useState, useRef } from 'react';
 
 interface MainContentProps {
@@ -28,8 +30,10 @@ export const MainContent = ({ children }: MainContentProps) => {
 
   return (
     <ScrollArea className="h-screen w-full" onScrollChange={handleScrollChange}>
+      <DebugWidthManager />
       <Navbar isVisible={isNavbarVisible} />
       {children}
+      <Footer />
     </ScrollArea>
   );
 };

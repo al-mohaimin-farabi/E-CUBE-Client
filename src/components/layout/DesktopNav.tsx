@@ -12,7 +12,7 @@ import { navItems } from '@/config/nav-items';
 const contentVariants = {
   hidden: {
     opacity: 0,
-    x: -15,
+    x: -50,
     filter: 'blur(5px)',
   },
   visible: {
@@ -20,15 +20,15 @@ const contentVariants = {
     x: 0,
     filter: 'blur(0px)',
     transition: {
-      duration: 0.14,
+      duration: 0.3,
     },
   },
   exit: {
     opacity: 0,
-    x: 15,
+    x: 50,
     filter: 'blur(5px)',
     transition: {
-      duration: 0.1,
+      duration: 0.2,
     },
   },
 };
@@ -76,13 +76,15 @@ const DesktopNav = ({ isVisible }: { isVisible: boolean }) => {
       className="layout-padding bg-card sticky top-0 z-50 hidden h-16 lg:block"
     >
       <div className="flex h-full items-center justify-between">
-        <Image
-          src="/assets/navlogo.svg"
-          alt="logo"
-          width={153}
-          height={40}
-          className="h-10 w-auto object-contain"
-        />
+        <Link href="/">
+          <Image
+            src="/assets/navlogo.svg"
+            alt="logo"
+            width={153}
+            height={40}
+            className="h-10 w-auto object-contain"
+          />
+        </Link>
 
         <div className="flex h-full items-center gap-16">
           {/* Navigation Menu - Full height container */}

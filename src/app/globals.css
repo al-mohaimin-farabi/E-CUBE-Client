@@ -118,9 +118,31 @@
 
 @layer utilities {
   .layout-padding {
-    @apply px-4 py-2 sm:px-6 sm:py-3 lg:px-8 lg:py-3 xl:px-12 xl:py-4 2xl:px-16 2xl:py-4;
+    @apply px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16;
+    @apply py-12 md:py-16 lg:py-20 xl:py-24;
   }
   nav.layout-padding {
     @apply py-0;
   }
+}
+
+/* Debug Utility */
+.debug-width {
+  outline: 2px dashed #b300a4 !important;
+  outline-offset: -2px;
+  position: relative !important;
+}
+.debug-width::after {
+  content: attr(data-debug-width);
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: #b300a4;
+  color: white;
+  font-size: 10px;
+  font-weight: bold;
+  padding: 2px 4px;
+  z-index: 9999;
+  pointer-events: none;
+  border-bottom-left-radius: 4px;
 }
