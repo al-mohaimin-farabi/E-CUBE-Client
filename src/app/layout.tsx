@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Titillium_Web } from 'next/font/google';
 import './globals.css';
 import ReduxProvider from '@/redux/provider';
-import Navbar from '@/components/layout/Navbar';
+import { MainContent } from '@/components/layout/MainContent';
 
 const titillium = Titillium_Web({
   weight: ['200', '300', '400', '600', '700', '900'],
@@ -23,10 +23,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${titillium.variable} font-sans antialiased`}>
+      <body
+        className={`${titillium.variable} overflow-hidden font-sans antialiased`}
+      >
         <ReduxProvider>
-          <Navbar />
-          {children}
+          <MainContent>{children}</MainContent>
         </ReduxProvider>
       </body>
     </html>

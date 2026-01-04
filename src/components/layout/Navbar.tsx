@@ -1,6 +1,6 @@
 'use client';
 
-import * as React from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
@@ -75,19 +75,25 @@ const contentVariants = {
   },
 };
 
-const Navbar = () => {
-  const [activeDropdown, setActiveDropdown] = React.useState<string | null>(
-    null
-  );
-  const [dropdownPosition, setDropdownPosition] = React.useState<number>(0);
-  const [isDropdownVisible, setIsDropdownVisible] = React.useState(false);
-  const navRef = React.useRef<HTMLDivElement>(null);
-  const triggerRefs = React.useRef<Map<string, HTMLButtonElement>>(new Map());
-  const closeTimeoutRef = React.useRef<NodeJS.Timeout | null>(null);
+const Navbar = ({ isVisible }: { isVisible: boolean }) => {
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [dropdownPosition, setDropdownPosition] = useState<number>(0);
+  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+  const navRef = useRef<HTMLDivElement>(null);
+  const triggerRefs = useRef<Map<string, HTMLButtonElement>>(new Map());
+  const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const activeItem = navItems.find(
     (item) => item.label === activeDropdown && item.hasDropdown
   );
+
+  // Close dropdown when navbar hides
+  useEffect(() => {
+    if (!isVisible) {
+      setActiveDropdown(null);
+      setIsDropdownVisible(false);
+    }
+  }, [isVisible]);
 
   const handleMouseEnter = (label: string) => {
     const item = navItems.find((i) => i.label === label);
@@ -95,13 +101,11 @@ const Navbar = () => {
       return;
     }
 
-    // Clear any pending close timeout
     if (closeTimeoutRef.current) {
       clearTimeout(closeTimeoutRef.current);
       closeTimeoutRef.current = null;
     }
 
-    // Calculate position for this trigger
     const button = triggerRefs.current.get(label);
     const navContainer = navRef.current;
     if (button && navContainer) {
@@ -115,7 +119,6 @@ const Navbar = () => {
   };
 
   const handleMouseLeave = () => {
-    // Add small delay before closing to allow cursor to move to dropdown
     closeTimeoutRef.current = setTimeout(() => {
       setActiveDropdown(null);
       setIsDropdownVisible(false);
@@ -123,7 +126,6 @@ const Navbar = () => {
   };
 
   const handleDropdownMouseEnter = () => {
-    // Cancel close timeout when entering dropdown
     if (closeTimeoutRef.current) {
       clearTimeout(closeTimeoutRef.current);
       closeTimeoutRef.current = null;
@@ -136,7 +138,11 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="layout-padding bg-card grid h-16 items-center">
+    <motion.nav
+      animate={{ y: isVisible ? 0 : -64 }}
+      transition={{ duration: 0.3 }}
+      className="layout-padding bg-card sticky top-0 z-50 grid h-16 items-center"
+    >
       <div className="flex items-center justify-between">
         <Image
           src="/assets/navlogo.svg"
@@ -171,7 +177,7 @@ const Navbar = () => {
                   {item.label}
                   <ChevronDown
                     className={cn(
-                      'h-4 w-4 transition-transform duration-200',
+                      'transition-transform duration-200',
                       activeDropdown === item.label ? 'rotate-180' : ''
                     )}
                   />
@@ -248,7 +254,7 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-    </nav>
+    </motion.nav>
   );
 };
 
