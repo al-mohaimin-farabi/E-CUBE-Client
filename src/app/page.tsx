@@ -1,3 +1,3 @@
 export default function Home() {
-  return <main className="layout-padding"></main>;
+  return <main className="layout-padding min-h-[200vh]"></main>;
 }
