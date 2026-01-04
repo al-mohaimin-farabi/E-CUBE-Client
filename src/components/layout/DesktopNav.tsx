@@ -181,11 +181,12 @@ const DesktopNav = ({ isVisible }: { isVisible: boolean }) => {
             <Button
               variant="outline"
               className="text-xs font-semibold text-white"
+              asChild
             >
-              Login
+              <Link href="/login">Login</Link>
             </Button>
-            <Button className="text-xs font-semibold text-white">
-              Sign Up
+            <Button className="text-xs font-semibold text-white" asChild>
+              <Link href="/signup">Sign Up</Link>
             </Button>
           </div>
         </div>

@@ -220,15 +220,16 @@ const MobileNavbar = ({ isVisible }: MobileNavbarProps) => {
                     <Button
                       variant="outline"
                       className="w-full font-semibold text-white"
-                      onClick={closeMenu}
+                      asChild
                     >
-                      Login
+                      <Link href="/login" onClick={closeMenu}>
+                        Login
+                      </Link>
                     </Button>
-                    <Button
-                      className="w-full font-semibold text-white"
-                      onClick={closeMenu}
-                    >
-                      Sign Up
+                    <Button className="w-full font-semibold text-white" asChild>
+                      <Link href="/signup" onClick={closeMenu}>
+                        Sign Up
+                      </Link>
                     </Button>
                   </div>
                 </div>
