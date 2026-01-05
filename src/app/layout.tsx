@@ -3,6 +3,8 @@ import { Titillium_Web } from 'next/font/google';
 import './globals.css';
 import ReduxProvider from '@/redux/provider';
 import { MainContent } from '@/components/layout/MainContent';
+import { Toaster } from 'react-hot-toast';
+import { ScrollToTop } from '@/components/ui/ScrollToTop';
 
 const titillium = Titillium_Web({
   weight: ['200', '300', '400', '600', '700', '900'],
@@ -29,6 +31,23 @@ export default function RootLayout({
         <ReduxProvider>
           <MainContent>{children}</MainContent>
         </ReduxProvider>
+        <ScrollToTop />
+        <Toaster
+          position="top-center"
+          toastOptions={{
+            style: {
+              background: '#161d23',
+              color: '#fff',
+              border: '1px solid #273440',
+            },
+            success: {
+              iconTheme: {
+                primary: '#1895fc',
+                secondary: '#fff',
+              },
+            },
+          }}
+        />
       </body>
     </html>
   );

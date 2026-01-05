@@ -16,7 +16,7 @@ const tournaments = () => {
         title="Valorant Ulimate Showdown Battleground 1.0 "
         items={stats}
       />
-      <div className="layout-padding pt-6!">
+      <div className="layout-padding container-wide pt-6!">
         <div className="mx-auto">
           <TournamentFilter />
         </div>
@@ -24,7 +24,6 @@ const tournaments = () => {
           <TournamentList />
         </div>
       </div>
-      <ScrollToTop />
     </main>
   );
 };

@@ -9,36 +9,23 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
+import toast from 'react-hot-toast';
 
-// Zod Schema
-const registrationSchema = z
-  .object({
-    teamName: z.string().min(3, 'Team Name must be at least 3 characters'),
-    leaderName: z
-      .string()
-      .min(3, 'Leader/IGL Name must be at least 3 characters'),
-    leaderId: z.string().regex(/^\d{5,12}$/, 'PUBGM ID must be 5-12 digits'),
-    leaderFullName: z
-      .string()
-      .min(3, 'Full Name must be at least 3 characters'),
-    email: z.string().email('Invalid email address'),
-    phoneNumber: z
-      .string()
-      .regex(
-        /^(?:\+88|88)?(01[3-9]\d{8})$/,
-        'Invalid Bangladeshi phone number'
-      ),
-    discordId: z.string().min(3, 'Invalid Discord ID'),
-    password: z.string().min(6, 'Password must be at least 6 characters'),
-    confirmPassword: z
-      .string()
-      .min(6, 'Confirm Password must be at least 6 characters'),
-    logo: z.any().optional(),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords don't match",
-    path: ['confirmPassword'],
-  });
+// Zod Schema (without password fields)
+const registrationSchema = z.object({
+  teamName: z.string().min(3, 'Team Name must be at least 3 characters'),
+  leaderName: z
+    .string()
+    .min(3, 'Leader/IGL Name must be at least 3 characters'),
+  leaderId: z.string().regex(/^\d{5,12}$/, 'PUBGM ID must be 5-12 digits'),
+  leaderFullName: z.string().min(3, 'Full Name must be at least 3 characters'),
+  email: z.string().email('Invalid email address'),
+  phoneNumber: z
+    .string()
+    .regex(/^(?:\+88|88)?(01[3-9]\d{8})$/, 'Invalid Bangladeshi phone number'),
+  discordId: z.string().min(3, 'Invalid Discord ID'),
+  logo: z.any().optional(),
+});
 
 type RegistrationFormValues = z.infer<typeof registrationSchema>;
 
@@ -96,7 +83,13 @@ const InputField = ({
   );
 };
 
-export const TeamRegistrationForm = () => {
+interface TeamRegistrationFormProps {
+  tournamentId: string;
+}
+
+export const TeamRegistrationForm = ({
+  tournamentId,
+}: TeamRegistrationFormProps) => {
   const [logo, setLogo] = useState<File | null>(null);
   const [logoPreview, setLogoPreview] = useState<string | null>(null);
   const [logoError, setLogoError] = useState<string | null>(null);
@@ -149,7 +142,11 @@ export const TeamRegistrationForm = () => {
       setLogoError('Team Logo is required');
       return;
     }
-    console.log('Form submitted', { ...data, logo });
+    console.log('Form submitted for tournament:', tournamentId, {
+      ...data,
+      logo,
+    });
+    toast.success('Team registered successfully!');
     // Handle submission logic
   };
 
@@ -276,26 +273,10 @@ export const TeamRegistrationForm = () => {
           registration={register('discordId')}
           error={errors.discordId?.message}
         />
-        <InputField
-          label="Password"
-          type="password"
-          placeholder="Enter password"
-          required
-          registration={register('password')}
-          error={errors.password?.message}
-        />
-        <InputField
-          label="Confirm Password"
-          type="password"
-          placeholder="Confirm password"
-          required
-          registration={register('confirmPassword')}
-          error={errors.confirmPassword?.message}
-        />
       </div>
 
       <Button type="submit" size={'xl'} className="w-full">
-        Next
+        Register Team
       </Button>
     </form>
   );

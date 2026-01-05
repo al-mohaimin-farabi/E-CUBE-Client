@@ -4,19 +4,18 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowUp } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { cn, scrollToTop } from '@/lib/utils';
 
 export const ScrollToTop = () => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    const scrollViewport = document.querySelector(
-      '[data-radix-scroll-area-viewport]'
-    );
+    let scrollViewport: Element | null = null;
 
     const handleScroll = (e: Event) => {
       const allowedRange = 300;
       const target = e.target as HTMLDivElement;
-      // If target is null, it might be window
+      // If target is null, it might be window which doesn't have scrollTop. Fallback to scrollY.
       const scrollTop = target ? target.scrollTop : window.scrollY;
 
       if (scrollTop > allowedRange) {
@@ -26,13 +25,21 @@ export const ScrollToTop = () => {
       }
     };
 
-    if (scrollViewport) {
-      scrollViewport.addEventListener('scroll', handleScroll);
-    } else {
-      window.addEventListener('scroll', handleScroll);
-    }
+    // Small delay to ensure ScrollArea is mounted
+    const timeoutId = setTimeout(() => {
+      scrollViewport = document.querySelector(
+        '[data-radix-scroll-area-viewport], [data-slot="scroll-area-viewport"]'
+      );
+
+      if (scrollViewport) {
+        scrollViewport.addEventListener('scroll', handleScroll);
+      } else {
+        window.addEventListener('scroll', handleScroll);
+      }
+    }, 100);
 
     return () => {
+      clearTimeout(timeoutId);
       if (scrollViewport) {
         scrollViewport.removeEventListener('scroll', handleScroll);
       } else {
@@ -41,23 +48,6 @@ export const ScrollToTop = () => {
     };
   }, []);
 
-  const scrollToTop = () => {
-    const scrollViewport = document.querySelector(
-      '[data-radix-scroll-area-viewport]'
-    );
-    if (scrollViewport) {
-      scrollViewport.scrollTo({
-        top: 0,
-        behavior: 'smooth',
-      });
-    } else {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth',
-      });
-    }
-  };
-
   return (
     <AnimatePresence>
       {isVisible && (
@@ -65,7 +55,7 @@ export const ScrollToTop = () => {
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.8 }}
-          className="fixed right-6 bottom-6 z-50"
+          className="fixed right-6 bottom-6 z-30"
         >
           <Button
             onClick={scrollToTop}

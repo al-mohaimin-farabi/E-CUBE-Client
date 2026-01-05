@@ -6,9 +6,9 @@ import { FaDiscord } from 'react-icons/fa';
 
 const Footer = () => {
   return (
-    <footer className="w-full bg-[#0E1113]">
+    <footer className=" bg-[#0E1113]">
       {/* Discord Banner */}
-      <div className="layout-padding flex min-h-[50px] items-center justify-center bg-[#657DD2] py-3! text-white sm:py-3!">
+      <div className="layout-padding  flex min-h-[50px] items-center justify-center bg-[#657DD2] py-3! text-white sm:py-3!">
         <div className="flex flex-wrap items-center justify-center gap-4 text-center">
           <div className="flex items-center gap-2">
             <FaDiscord className="h-6 w-6" />
@@ -34,7 +34,7 @@ const Footer = () => {
       </div>
 
       {/* Main Footer Content */}
-      <div className="layout-padding @container py-16! text-white">
+      <div className="layout-padding container-wide @container py-16! text-white">
         <div className="grid grid-cols-1 gap-8 @[1308px]:grid-cols-12">
           <div className="shrink-0 @[1308px]:col-span-2">
             <Link href="/">
