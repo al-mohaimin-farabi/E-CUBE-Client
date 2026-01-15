@@ -44,7 +44,7 @@
   --radius: 0.625rem;
 
   /* --- 1. Raw Color Palette (Role Based) --- */
-  --palette-background: #050505; /* --color-background */
+  --palette-background: #111518; /* --color-background */
   --palette-surface: #161d23; /* --color-card, --color-popover, --color-sidebar */
   --palette-border: #273440; /* --color-border, --color-input, --color-sidebar-border */
 
@@ -128,7 +128,38 @@
   nav.layout-padding {
     @apply py-0;
   }
- 
+
+  /* Responsive Typography */
+  .type-xs {
+    @apply text-xs sm:text-sm;
+  }
+  .type-sm {
+    @apply text-sm sm:text-base;
+  }
+  .type-base {
+    @apply text-base sm:text-lg;
+  }
+  .type-lg {
+    @apply text-lg sm:text-xl md:text-2xl;
+  }
+  .type-xl {
+    @apply text-xl sm:text-2xl md:text-3xl;
+  }
+  .type-2xl {
+    @apply text-2xl sm:text-3xl md:text-4xl;
+  }
+  .type-3xl {
+    @apply text-3xl sm:text-4xl md:text-5xl;
+  }
+  .type-4xl {
+    @apply text-4xl sm:text-5xl md:text-6xl;
+  }
+  .type-5xl {
+    @apply text-5xl sm:text-6xl md:text-7xl;
+  }
+  .type-hero {
+    @apply text-5xl sm:text-6xl md:text-7xl lg:text-8xl;
+  }
 }
 
 @layer components {

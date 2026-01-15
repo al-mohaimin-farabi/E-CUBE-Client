@@ -11,80 +11,100 @@ export interface Tournament {
   eventStart: string;
   eventEnd: string;
   isJoined?: boolean;
+  featured?: boolean;
+  game?: string;
+  platform?: 'PC' | 'Mobile' | 'Console';
+  entryFee?: string;
+  mode?: string;
+  prizePool?: string;
+  filledSlots?: number;
+  bannerImage?: string;
 }
 
 const initialTournaments: Tournament[] = [
   {
     id: '1',
-    title: 'Valorant Ultimate Showdown',
-    country: ['BD', 'IN', 'NP'],
-    location: 'Online / Lan',
-    totalSlots: 128,
-    registrationStart: '1 January 2024 • 6:00 PM (BST)',
-    registrationClose: '3 January 2024 • 11:59 PM (BST)',
-    eventStart: '5 January 2024',
-    eventEnd: '10 January 2024',
+    title: 'Valorant Ultimate Showdown Battleground 1.0',
+    country: ['EU'],
+    location: 'Europe',
+    totalSlots: 16,
+    filledSlots: 3,
+    registrationStart: '2022-09-01',
+    registrationClose: '2022-10-01',
+    eventStart: 'OCT 02, 2022 • 19:00',
+    eventEnd: 'OCT 02, 2022 • 23:00',
+    featured: true,
+    game: 'Valorant',
+    platform: 'PC',
+    entryFee: 'Free Entry',
+    mode: '5v5',
+    prizePool: '10,000 BDT',
+    bannerImage: '/assets/images/TournamentBanner.png',
   },
   {
     id: '2',
-    title: 'CS:GO Asia Championship',
-    country: ['CN', 'KR', 'JP'],
-    location: 'Shanghai, China',
-    totalSlots: 64,
-    registrationStart: '10 February 2024 • 10:00 AM (CST)',
-    registrationClose: '15 February 2024 • 11:59 PM (CST)',
-    eventStart: '20 February 2024',
-    eventEnd: '25 February 2024',
+    title: 'Valorant Ultimate Showdown Battleground 1.0',
+    country: ['EU'],
+    location: 'Europe',
+    totalSlots: 16,
+    filledSlots: 12,
+    registrationStart: '2022-09-01',
+    registrationClose: '2022-10-01',
+    eventStart: 'OCT 02, 2022 • 19:00',
+    eventEnd: 'OCT 02, 2022 • 23:00',
+    featured: true,
+    game: 'Valorant',
+    platform: 'PC',
+    entryFee: 'Free Entry',
+    mode: '5v5',
+    prizePool: '10,000 BDT',
+    bannerImage: '/assets/images/TournamentBanner.png',
   },
   {
     id: '3',
-    title: 'Dota 2 Winter Major',
-    country: ['US', 'CA', 'UK'],
-    location: 'Online',
-    totalSlots: 256,
-    registrationStart: '1 March 2024 • 12:00 PM (EST)',
-    registrationClose: '5 March 2024 • 8:00 PM (EST)',
-    eventStart: '10 March 2024',
-    eventEnd: '15 March 2024',
+    title: 'Valorant Ultimate Showdown Battleground 1.0',
+    country: ['EU'],
+    location: 'Europe',
+    totalSlots: 16,
+    filledSlots: 8,
+    registrationStart: '2022-09-01',
+    registrationClose: '2022-10-01',
+    eventStart: 'OCT 02, 2022 • 19:00',
+    eventEnd: 'OCT 02, 2022 • 23:00',
+    featured: true,
+    game: 'Valorant',
+    platform: 'PC',
+    entryFee: 'Free Entry',
+    mode: '5v5',
+    prizePool: '10,000 BDT',
+    bannerImage: '/assets/images/TournamentBanner.png',
   },
   {
     id: '4',
-    title: 'Mobile Legends Bang Bang Cup',
-    country: ['ID', 'PH', 'MY'],
-    location: 'Jakarta, Indonesia',
-    totalSlots: 512,
-    registrationStart: '15 April 2024 • 9:00 AM (WIB)',
-    registrationClose: '20 April 2024 • 11:59 PM (WIB)',
-    eventStart: '1 May 2024',
-    eventEnd: '5 May 2024',
-  },
-  {
-    id: '5',
-    title: 'PUBG Global Invitational',
-    country: ['Global'],
-    location: 'Lan',
-    totalSlots: 100,
-    registrationStart: '1 June 2024 • 00:00 AM (UTC)',
-    registrationClose: '10 June 2024 • 11:59 PM (UTC)',
-    eventStart: '1 July 2024',
-    eventEnd: '7 July 2024',
-  },
-  {
-    id: '6',
-    title: 'Rocket League Speed Cup',
+    title: 'Valorant Ultimate Showdown Battleground 1.0',
     country: ['EU'],
-    location: 'Online',
-    totalSlots: 32,
-    registrationStart: '5 July 2024 • 3:00 PM (CET)',
-    registrationClose: '7 July 2024 • 11:59 PM (CET)',
-    eventStart: '10 July 2024',
-    eventEnd: '12 July 2024',
+    location: 'Europe',
+    totalSlots: 16,
+    filledSlots: 15,
+    registrationStart: '2022-09-01',
+    registrationClose: '2022-10-01',
+    eventStart: 'OCT 02, 2022 • 19:00',
+    eventEnd: 'OCT 02, 2022 • 23:00',
+    featured: true,
+    game: 'Valorant',
+    platform: 'PC',
+    entryFee: 'Free Entry',
+    mode: '5v5',
+    prizePool: '10,000 BDT',
+    bannerImage: '/assets/images/TournamentBanner.png',
   },
 ];
 
 interface FilterState {
   region: string;
   sortBy: string;
+  game: string;
+  platform: string;
 }
 
 interface TournamentState {
@@ -99,6 +119,8 @@ const initialState: TournamentState = {
   filters: {
     region: 'Region',
     sortBy: 'Sort by',
+    game: 'Game',
+    platform: 'Platform',
   },
 };
 
@@ -135,7 +157,20 @@ const tournamentSlice = createSlice({
         result = result.filter((t) => t.country.includes('Global'));
       }
 
-      // 2. Sort Filter (using Event Start Date)
+      // 2. Game Filter
+      if (state.filters.game !== 'Game' && state.filters.game !== 'All') {
+        result = result.filter((t) => t.game === state.filters.game);
+      }
+
+      // 3. Platform Filter
+      if (
+        state.filters.platform !== 'Platform' &&
+        state.filters.platform !== 'All'
+      ) {
+        result = result.filter((t) => t.platform === state.filters.platform);
+      }
+
+      // 4. Sort Filter (using Event Start Date)
       if (state.filters.sortBy === 'Newest') {
         result.sort(
           (a, b) =>

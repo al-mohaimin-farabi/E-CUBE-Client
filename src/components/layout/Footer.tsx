@@ -6,7 +6,7 @@ import { FaDiscord } from 'react-icons/fa';
 
 const Footer = () => {
   return (
-    <footer className=" bg-[#0E1113]">
+    <footer className=" bg-[#0E1113] mt-6">
       {/* Discord Banner */}
       <div className="layout-padding  flex min-h-[50px] items-center justify-center bg-[#657DD2] py-3! text-white sm:py-3!">
         <div className="flex flex-wrap items-center justify-center gap-4 text-center">

@@ -36,7 +36,7 @@ export const MainContent = ({ children }: MainContentProps) => {
     <ScrollArea className="h-screen w-full" onScrollChange={handleScrollChange}>
       <DebugWidthManager />
       <Navbar isVisible={isNavbarVisible} />
-      <div className="pt-16 lg:pt-0">{children}</div>
+      <div className="pt-16 lg:pt-0 min-h-screen">{children}</div>
       <Footer />
     </ScrollArea>
   );

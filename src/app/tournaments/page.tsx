@@ -1,6 +1,6 @@
 import PageHeader from '@/components/common/PageHeader';
-import { TournamentFilter } from '@/components/tournaments/TournamentFilter';
-import { TournamentList } from '@/components/tournaments/TournamentInfoCard';
+import { TournamentFilter } from '@/components/pages/tournaments/TournamentFilter';
+import { TournamentList } from '@/components/pages/tournaments/TournamentInfoCard';
 import { ScrollToTop } from '@/components/ui/ScrollToTop';
 
 const stats = {
