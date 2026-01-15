@@ -39,7 +39,7 @@ export const footerSections: FooterSection[] = [
   {
     title: 'Contact',
     links: [
-      { label: 'hello@angular.gg', href: 'mailto:hello@angular.gg' },
+      { label: 'hello@ecube.gg', href: 'mailto:hello@ecube.gg' },
       { label: '+8801760987004', href: 'tel:+8801760987004' },
       {
         label: 'Level- 4, Awal Center, 34 Kamal Ataturk Ave, Dhaka- 1213',

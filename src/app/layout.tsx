@@ -13,9 +13,9 @@ const titillium = Titillium_Web({
 });
 
 export const metadata: Metadata = {
-  title: 'Angular Esports - Competitive Gaming Platform',
+  title: 'E-CUBE Esports - Competitive Gaming Platform',
   description:
-    'Join the ultimate esports community at Angular Esports. Participate in top-tier tournaments like Valorant Ultimate Showdown Battleground 1.0, compete for prize pools, and rise through the ranks. Registration is open!',
+    'Join the ultimate esports community at E-CUBE. Participate in top-tier tournaments like Valorant Ultimate Showdown Battleground 1.0, compete for prize pools, and rise through the ranks. Registration is open!',
 };
 
 export default function RootLayout({

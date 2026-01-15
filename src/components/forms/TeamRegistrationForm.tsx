@@ -231,21 +231,21 @@ export const TeamRegistrationForm = ({
         />
         <InputField
           label="Leader/IGL Name"
-          placeholder="Angular Esports"
+          placeholder="E-CUBE"
           required
           registration={register('leaderName')}
           error={errors.leaderName?.message}
         />
         <InputField
           label="Leader/IGL PUBGM ID"
-          placeholder="Angular Esports"
+          placeholder="E-CUBE"
           required
           registration={register('leaderId')}
           error={errors.leaderId?.message}
         />
         <InputField
           label="Leader Full Name"
-          placeholder="Angular Esports"
+          placeholder="E-CUBE"
           required
           registration={register('leaderFullName')}
           error={errors.leaderFullName?.message}
@@ -253,7 +253,7 @@ export const TeamRegistrationForm = ({
         <InputField
           label="Email"
           type="email"
-          placeholder="hello@angular.gg"
+          placeholder="hello@ecube.gg"
           required
           registration={register('email')}
           error={errors.email?.message}

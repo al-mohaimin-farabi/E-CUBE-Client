@@ -90,7 +90,7 @@ const Footer = () => {
         <div className="mt-4 text-right text-xs text-gray-500">
           <p className="italic">
             &copy; Copyright{' '}
-            <span className="text-primary">Angular Esports Ltd.</span> 2022 All
+            <span className="text-primary">E-CUBE Ltd.</span> 2022 All
             rights reserved.
           </p>
         </div>
