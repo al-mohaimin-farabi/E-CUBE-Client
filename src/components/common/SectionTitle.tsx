@@ -21,7 +21,7 @@ const SectionTitle = ({
     <div className={cn('flex justify-between gap-1 items-center mb-6', className)}>
       <h2
         className={cn(
-          'type-lg leading-none font-semibold tracking-wide text-white capitalize',
+          'type-4xl leading-none font-semibold tracking-wide text-white capitalize',
           titleClassName
         )}
       >
@@ -30,7 +30,7 @@ const SectionTitle = ({
       {href && (
         <Link
           href={href}
-          className="text-primary hover:text-primary/80 mb-1 flex items-center gap-1 text-sm font-bold capitalize transition-colors"
+          className="text-primary hover:text-primary/80  flex items-center gap-1 text-sm font-bold capitalize transition-colors"
         >
           {linkText}
           <ChevronRight className="size-4" />
