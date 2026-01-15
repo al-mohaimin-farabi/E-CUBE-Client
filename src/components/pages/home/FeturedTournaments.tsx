@@ -18,7 +18,7 @@ const FeturedTournaments = () => {
     .slice(0, 4);
 
   return (
-    <SectionWrapper compact>
+    <SectionWrapper compact >
       <SectionTitle href="/tournaments" title="Featured Tournaments" />
 
       {/* Container Query Wrapper */}

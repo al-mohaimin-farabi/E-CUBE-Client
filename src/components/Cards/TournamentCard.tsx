@@ -13,7 +13,7 @@ const TournamentCard = ({ tournament, className }: TournamentCardProps) => {
   return (
     <div
       className={cn(
-        'group bg-card border-border/50 hover:border-border @container overflow-hidden rounded-md border shadow-sm transition-all hover:shadow-md',
+        'group bg-card border-border/50 hover:border-primary @container overflow-hidden rounded-md border shadow-sm transition-all hover:shadow-md',
         className
       )}
     >
@@ -48,7 +48,7 @@ const TournamentCard = ({ tournament, className }: TournamentCardProps) => {
         </div>
 
         {/* Prize Pool Overlay */}
-        <div className="absolute bottom-0 px-3 py-2 bg-black/60 left-0 right-0 flex items-center gap-2">
+        <div className="absolute right-0 bottom-0 left-0 flex items-center gap-2 bg-black/60 px-3 py-2">
           <Trophy className="size-5 text-[#ed9c00]" />
           <span className="text-lg font-bold text-white">
             {tournament.prizePool}
@@ -73,7 +73,7 @@ const TournamentCard = ({ tournament, className }: TournamentCardProps) => {
               {tournament.entryFee}
             </span>
           </div>
-          <div className="flex flex-col items-start gap-1">
+          <div className="flex flex-col items-end gap-1 @[350px]:items-start">
             <span className="text-[10px] font-bold text-gray-500 uppercase">
               Mode
             </span>
@@ -91,7 +91,7 @@ const TournamentCard = ({ tournament, className }: TournamentCardProps) => {
                 : 'Global'}
             </span>
           </div>
-          <div className="flex flex-col items-start gap-1">
+          <div className="flex flex-col items-end gap-1 @[350px]:items-start">
             <span className="text-[10px] font-bold text-gray-500 uppercase">
               Slots
             </span>
@@ -112,11 +112,7 @@ const TournamentCard = ({ tournament, className }: TournamentCardProps) => {
               {tournament.eventStart.split('•')[0].trim()}
             </span>
           </div>
-          <Button
-            variant="outline"
-            size="sm"
-            className="text-primary hover:text-primary hover:border-primary/30 border-white/10 bg-transparent font-bold tracking-wider uppercase hover:bg-white/5"
-          >
+          <Button variant="outline" size="sm">
             Join Now
           </Button>
         </div>

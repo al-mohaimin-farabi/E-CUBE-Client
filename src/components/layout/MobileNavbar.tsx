@@ -78,7 +78,7 @@ const MobileNavbar = ({ isVisible }: MobileNavbarProps) => {
       <motion.nav
         animate={{ y: isVisible ? 0 : -64 }}
         transition={{ duration: 0.3 }}
-        className="layout-padding bg-card @container fixed top-0 right-0 left-0 z-50 flex h-16 items-center justify-between lg:hidden"
+        className="layout-padding bg-card @container fixed top-0 right-0 left-0 z-[9999999999999999] flex h-16 items-center justify-between lg:hidden"
       >
         <Link href="/">
           <Image

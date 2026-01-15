@@ -21,7 +21,7 @@ const SectionTitle = ({
     <div className={cn('flex justify-between gap-1 items-center mb-6', className)}>
       <h2
         className={cn(
-          'type-4xl leading-none font-semibold tracking-wide text-white capitalize',
+          'type-lg leading-none font-semibold tracking-wide text-white capitalize',
           titleClassName
         )}
       >

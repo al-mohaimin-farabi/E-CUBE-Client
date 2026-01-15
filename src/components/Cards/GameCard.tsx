@@ -1,0 +1,58 @@
+import Image from 'next/image';
+import { cn } from '@/lib/utils';
+import type { Game } from '@/redux/features/games/gamesSlice';
+
+interface GameCardProps {
+  game: Game;
+  className?: string;
+}
+
+const GameCard = ({ game, className }: GameCardProps) => {
+  return (
+    <div
+      className={cn(
+        'group bg-card hover:border-primary border-border relative aspect-3/2 w-full overflow-hidden rounded-md border shadow-sm transition-all h-[400px] hover:shadow-lg',
+        className
+      )}
+    >
+      {/* Background Image */}
+      <Image
+        src={game?.image}
+        alt={game?.title}
+        fill
+        className="object-cover transition-transform duration-500 group-hover:scale-110 aspect-3/2!"
+      />
+
+      {/* Overlay Gradient: Darker at the bottom for text readability */}
+      <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/40 to-transparent" />
+
+      {/* Platform Badge */}
+      {game.platform && (
+        <div className="absolute top-3 right-3">
+          <span
+            className={cn(
+              'rounded-full px-2 py-1 text-[10px] font-bold tracking-wider text-black uppercase',
+              game?.platform === 'Mobile'
+                ? 'bg-yellow-500' // Custom color for mobile
+                : 'bg-[#ed9c00]' // Default orange/primary
+            )}
+          >
+            {game?.platform}
+          </span>
+        </div>
+      )}
+
+      {/* Content */}
+      <div className="absolute right-0 bottom-0 left-0 p-4 text-center">
+        <h3 className="group-hover:text-primary type-md mb-1 font-bold text-white transition-colors">
+          {game?.title}
+        </h3>
+        <p className="text-sm font-medium tracking-wide text-[#ed9c00] uppercase">
+          {game?.tournamentCount} Tournaments
+        </p>
+      </div>
+    </div>
+  );
+};
+
+export default GameCard;

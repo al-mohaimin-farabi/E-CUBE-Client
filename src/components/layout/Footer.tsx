@@ -6,9 +6,9 @@ import { FaDiscord } from 'react-icons/fa';
 
 const Footer = () => {
   return (
-    <footer className=" bg-[#0E1113] mt-6">
+    <footer className="mt-16 bg-[#0E1113]">
       {/* Discord Banner */}
-      <div className="layout-padding  flex min-h-[50px] items-center justify-center bg-[#657DD2] py-3! text-white sm:py-3!">
+      <div className="layout-padding flex min-h-[50px] items-center justify-center bg-[#5865F2] py-3! text-white sm:py-3!">
         <div className="flex flex-wrap items-center justify-center gap-4 text-center">
           <div className="flex items-center gap-2">
             <FaDiscord className="h-6 w-6" />
@@ -89,9 +89,8 @@ const Footer = () => {
         {/* Copyright */}
         <div className="mt-4 text-right text-xs text-gray-500">
           <p className="italic">
-            &copy; Copyright{' '}
-            <span className="text-primary">E-CUBE Ltd.</span> 2022 All
-            rights reserved.
+            &copy; Copyright <span className="text-primary">E-CUBE Ltd.</span>{' '}
+            2022 All rights reserved.
           </p>
         </div>
       </div>
