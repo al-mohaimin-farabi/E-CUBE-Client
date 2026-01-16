@@ -4,13 +4,16 @@ import { Button } from '@/components/ui/button';
 
 const WhoAreWe = () => {
   return (
-    <section className="w-full mt-8  mb-10">
+    <section className="mt-8 mb-10 w-full">
       <div className="flex w-full flex-col lg:flex-row">
         {/* Left Side - Primary Color */}
         <div className="bg-primary flex w-full flex-none justify-end py-6 md:py-10 lg:w-1/2 lg:py-12">
           <div className="flex w-full max-w-[960px] flex-col items-start justify-center px-4 pr-0 sm:px-6 lg:px-8 xl:px-12 2xl:px-16">
             <div className="@container flex w-full flex-col items-start text-white md:ml-auto md:pr-8">
-              <h2 className="text-left text-xl leading-none font-black tracking-widest uppercase @[300px]:text-4xl @[450px]:text-6xl @[550px]:text-7xl @[750px]:whitespace-nowrap">
+              <h2
+                className="text-left text-transparent text-xl leading-none font-black tracking-wide uppercase @[300px]:text-4xl @[450px]:text-6xl font-khand @[550px]:text-7xl @[750px]:whitespace-nowrap"
+                style={{ WebkitTextStroke: '1px white' }}
+              >
                 WHO ARE WE?
               </h2>
               <div className="mt-2 flex flex-wrap items-start gap-2 text-white/90 sm:gap-6">

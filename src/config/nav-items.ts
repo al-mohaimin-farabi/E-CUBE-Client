@@ -1,4 +1,12 @@
-export const navItems = [
+export interface NavItem {
+  label: string;
+  href: string;
+  hasDropdown?: boolean;
+  isParentClickable?: boolean;
+  subItems?: { label: string; href: string }[];
+}
+
+export const navItems: NavItem[] = [
   {
     label: 'HOME',
     href: '/',
@@ -15,6 +23,7 @@ export const navItems = [
     label: 'GAMES',
     href: '/games',
     hasDropdown: true,
+    isParentClickable: true,
     subItems: [
       { label: 'Valorant', href: '/games/valorant' },
       { label: 'CS:GO', href: '/games/csgo' },

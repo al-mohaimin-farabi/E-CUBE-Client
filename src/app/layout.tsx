@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Titillium_Web } from 'next/font/google';
+import { Titillium_Web, Khand } from 'next/font/google';
 import './globals.css';
 import ReduxProvider from '@/redux/provider';
 import { MainContent } from '@/components/layout/MainContent';
@@ -10,6 +10,12 @@ const titillium = Titillium_Web({
   weight: ['200', '300', '400', '600', '700', '900'],
   subsets: ['latin'],
   variable: '--font-titillium',
+});
+
+const khand = Khand({
+  weight: ['300', '400', '500', '600', '700'],
+  subsets: ['latin'],
+  variable: '--font-khand',
 });
 
 export const metadata: Metadata = {
@@ -26,7 +32,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${titillium.variable} overflow-hidden font-sans antialiased`}
+        className={`${titillium.variable} ${khand.variable} overflow-hidden font-sans antialiased`}
       >
         <ReduxProvider>
           <MainContent>{children}</MainContent>

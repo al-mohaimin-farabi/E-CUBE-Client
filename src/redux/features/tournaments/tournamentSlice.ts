@@ -13,7 +13,7 @@ export interface Tournament {
   isJoined?: boolean;
   featured?: boolean;
   game?: string;
-  platform?: 'PC' | 'Mobile' | 'Console';
+  platform?: 'PC' | 'Mobile' | 'Console' | 'Cross-Platform';
   entryFee?: string;
   mode?: string;
   prizePool?: string;
@@ -98,6 +98,196 @@ const initialTournaments: Tournament[] = [
     prizePool: '10,000 BDT',
     bannerImage: '/assets/images/TournamentBanner.png',
   },
+  {
+    id: '5',
+    title: 'CS:GO Major Championship 2023',
+    country: ['EU', 'US'],
+    location: 'Global',
+    totalSlots: 32,
+    filledSlots: 32,
+    registrationStart: '2023-01-01',
+    registrationClose: '2023-02-01',
+    eventStart: 'MAY 15, 2023 • 14:00',
+    eventEnd: 'MAY 20, 2023 • 22:00',
+    featured: true,
+    game: 'CS:GO',
+    platform: 'PC',
+    entryFee: '$50',
+    mode: '5v5',
+    prizePool: '$1,000,000',
+    bannerImage: '/assets/images/TournamentBanner.png',
+  },
+  {
+    id: '6',
+    title: 'Dota 2 The International Qualifiers',
+    country: ['CN', 'EU'],
+    location: 'Asia',
+    totalSlots: 64,
+    filledSlots: 45,
+    registrationStart: '2023-06-01',
+    registrationClose: '2023-07-01',
+    eventStart: 'AUG 10, 2023 • 10:00',
+    eventEnd: 'AUG 25, 2023 • 18:00',
+    featured: false,
+    game: 'Dota 2',
+    platform: 'PC',
+    entryFee: 'Free Entry',
+    mode: '5v5',
+    prizePool: '$500,000',
+    bannerImage: '/assets/images/TournamentBanner.png',
+  },
+  {
+    id: '7',
+    title: 'League of Legends World Championship',
+    country: ['KR', 'US'],
+    location: 'South Korea',
+    totalSlots: 16,
+    filledSlots: 16,
+    registrationStart: '2023-09-01',
+    registrationClose: '2023-10-01',
+    eventStart: 'NOV 05, 2023 • 12:00',
+    eventEnd: 'NOV 19, 2023 • 20:00',
+    featured: true,
+    game: 'League of Legends',
+    platform: 'PC',
+    entryFee: 'Invite Only',
+    mode: '5v5',
+    prizePool: '$2,225,000',
+    bannerImage: '/assets/images/TournamentBanner.png',
+  },
+  {
+    id: '8',
+    title: 'Mobile Legends: Bang Bang SEA Cup',
+    country: ['ID', 'PH', 'MY'],
+    location: 'Southeast Asia',
+    totalSlots: 128,
+    filledSlots: 100,
+    registrationStart: '2023-03-01',
+    registrationClose: '2023-04-01',
+    eventStart: 'JUN 10, 2023 • 15:00',
+    eventEnd: 'JUN 18, 2023 • 21:00',
+    featured: false,
+    game: 'Mobile Legends',
+    platform: 'Mobile',
+    entryFee: 'Free Entry',
+    mode: '5v5',
+    prizePool: '$300,000',
+    bannerImage: '/assets/images/TournamentBanner.png',
+  },
+  {
+    id: '9',
+    title: 'Apex Legends Global Series Split 1',
+    country: ['US', 'UK'],
+    location: 'London',
+    totalSlots: 40,
+    filledSlots: 38,
+    registrationStart: '2023-01-15',
+    registrationClose: '2023-02-01',
+    eventStart: 'FEB 02, 2023 • 16:00',
+    eventEnd: 'FEB 05, 2023 • 20:00',
+    featured: true,
+    game: 'Apex Legends',
+    platform: 'PC',
+    entryFee: 'Free Entry',
+    mode: 'Battle Royale',
+    prizePool: '$500,000',
+    bannerImage: '/assets/images/TournamentBanner.png',
+  },
+  {
+    id: '10',
+    title: 'Fortnite FNCS Chapter 4 Season 1',
+    country: ['Global'],
+    location: 'Online',
+    totalSlots: 1000,
+    filledSlots: 850,
+    registrationStart: '2023-02-01',
+    registrationClose: '2023-02-15',
+    eventStart: 'MAR 01, 2023 • 18:00',
+    eventEnd: 'MAR 05, 2023 • 22:00',
+    featured: false,
+    game: 'Fortnite',
+    platform: 'Cross-Platform',
+    entryFee: 'Free Entry',
+    mode: 'Battle Royale',
+    prizePool: '$10,000,000',
+    bannerImage: '/assets/images/TournamentBanner.png',
+  },
+  {
+    id: '11',
+    title: 'Rocket League Championship Series Winter Major',
+    country: ['US'],
+    location: 'San Diego',
+    totalSlots: 16,
+    filledSlots: 16,
+    registrationStart: '2023-03-01',
+    registrationClose: '2023-03-15',
+    eventStart: 'APR 06, 2023 • 13:00',
+    eventEnd: 'APR 09, 2023 • 19:00',
+    featured: true,
+    game: 'Rocket League',
+    platform: 'Cross-Platform',
+    entryFee: 'Qualification',
+    mode: '3v3',
+    prizePool: '$310,000',
+    bannerImage: '/assets/images/TournamentBanner.png',
+  },
+  {
+    id: '12',
+    title: 'Call of Duty League Stage 3 Major',
+    country: ['US'],
+    location: 'Texas',
+    totalSlots: 12,
+    filledSlots: 12,
+    registrationStart: '2023-02-15',
+    registrationClose: '2023-03-01',
+    eventStart: 'MAR 09, 2023 • 15:00',
+    eventEnd: 'MAR 12, 2023 • 21:00',
+    featured: false,
+    game: 'Call of Duty',
+    platform: 'Console',
+    entryFee: 'Pro League',
+    mode: '4v4',
+    prizePool: '$500,000',
+    bannerImage: '/assets/images/TournamentBanner.png',
+  },
+  {
+    id: '13',
+    title: 'Overwatch League Midseason Madness',
+    country: ['KR', 'US'],
+    location: 'Seoul',
+    totalSlots: 8,
+    filledSlots: 8,
+    registrationStart: '2023-05-01',
+    registrationClose: '2023-06-01',
+    eventStart: 'JUN 16, 2023 • 11:00',
+    eventEnd: 'JUN 18, 2023 • 23:00',
+    featured: true,
+    game: 'Overwatch 2',
+    platform: 'PC',
+    entryFee: 'Invite Only',
+    mode: '5v5',
+    prizePool: '$1,000,000',
+    bannerImage: '/assets/images/TournamentBanner.png',
+  },
+  {
+    id: '14',
+    title: 'Street Fighter 6 Capcom Cup',
+    country: ['JP', 'US'],
+    location: 'Global',
+    totalSlots: 256,
+    filledSlots: 200,
+    registrationStart: '2024-01-01',
+    registrationClose: '2024-02-01',
+    eventStart: 'FEB 14, 2024 • 12:00',
+    eventEnd: 'FEB 20, 2024 • 20:00',
+    featured: false,
+    game: 'Street Fighter 6',
+    platform: 'Cross-Platform',
+    entryFee: '$10',
+    mode: '1v1',
+    prizePool: '$2,000,000',
+    bannerImage: '/assets/images/TournamentBanner.png',
+  },
 ];
 
 interface FilterState {
@@ -105,6 +295,7 @@ interface FilterState {
   sortBy: string;
   game: string;
   platform: string;
+  mode: string;
 }
 
 interface TournamentState {
@@ -121,6 +312,7 @@ const initialState: TournamentState = {
     sortBy: 'Sort by',
     game: 'Game',
     platform: 'Platform',
+    mode: 'Mode',
   },
 };
 
@@ -170,7 +362,16 @@ const tournamentSlice = createSlice({
         result = result.filter((t) => t.platform === state.filters.platform);
       }
 
-      // 4. Sort Filter (using Event Start Date)
+      // 4. Mode Filter
+      if (
+        state.filters.mode !== 'Mode' &&
+        state.filters.mode !== 'All' &&
+        state.filters.mode !== 'All Modes'
+      ) {
+        result = result.filter((t) => t.mode === state.filters.mode);
+      }
+
+      // 5. Sort Filter (using Event Start Date)
       if (state.filters.sortBy === 'Newest') {
         result.sort(
           (a, b) =>

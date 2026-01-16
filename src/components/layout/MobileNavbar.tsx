@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -38,6 +39,31 @@ const itemVariants = {
 const MobileNavbar = ({ isVisible }: MobileNavbarProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [expandedItem, setExpandedItem] = useState<string | null>(null);
+  const pathname = usePathname();
+
+  const isItemActive = (item: (typeof navItems)[0]) => {
+    // 1. Exact match
+    if (pathname === item.href) return true;
+
+    // 2. Check sub-items
+    if (item.subItems) {
+      if (
+        item.subItems.some(
+          (subItem) =>
+            pathname === subItem.href || pathname.startsWith(`${subItem.href}/`)
+        )
+      ) {
+        return true;
+      }
+    }
+
+    // 3. Prefix match for the parent itself
+    if (item.href !== '/' && pathname.startsWith(`${item.href}/`)) {
+      return true;
+    }
+
+    return false;
+  };
 
   // Disable body scroll when menu is open
   useEffect(() => {
@@ -134,7 +160,7 @@ const MobileNavbar = ({ isVisible }: MobileNavbarProps) => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="fixed inset-0 z-99 bg-black/60 backdrop-blur-sm lg:hidden" 
+              className="fixed inset-0 z-99 bg-black/60 backdrop-blur-sm lg:hidden"
               onClick={closeMenu}
             />
 
@@ -162,20 +188,58 @@ const MobileNavbar = ({ isVisible }: MobileNavbarProps) => {
                       >
                         {item.hasDropdown ? (
                           <div>
-                            <button
-                              onClick={() => toggleSubMenu(item.label)}
-                              className="hover:bg-accent hover:text-primary flex w-full items-center justify-between rounded-lg px-4 py-3 text-sm font-bold text-white uppercase transition-colors"
-                            >
-                              {item.label}
-                              <ChevronDown
+                            {item.isParentClickable ? (
+                              <div className="flex w-full items-center justify-between pr-4">
+                                <Link
+                                  href={item.href}
+                                  onClick={closeMenu}
+                                  className={cn(
+                                    'hover:bg-accent hover:text-primary flex-1 rounded-l-lg px-4 py-3 text-sm font-bold uppercase transition-colors',
+                                    isItemActive(item)
+                                      ? 'text-primary'
+                                      : 'text-white'
+                                  )}
+                                >
+                                  {item.label}
+                                </Link>
+                                <button
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    toggleSubMenu(item.label);
+                                  }}
+                                  className="hover:text-primary p-2"
+                                >
+                                  <ChevronDown
+                                    className={cn(
+                                      'h-4 w-4 transition-transform duration-200',
+                                      expandedItem === item.label
+                                        ? 'rotate-180'
+                                        : ''
+                                    )}
+                                  />
+                                </button>
+                              </div>
+                            ) : (
+                              <button
+                                onClick={() => toggleSubMenu(item.label)}
                                 className={cn(
-                                  'h-4 w-4 transition-transform duration-200',
-                                  expandedItem === item.label
-                                    ? 'rotate-180'
-                                    : ''
+                                  'hover:bg-accent hover:text-primary flex w-full items-center justify-between rounded-lg px-4 py-3 text-sm font-bold uppercase transition-colors',
+                                  isItemActive(item)
+                                    ? 'text-primary'
+                                    : 'text-white'
                                 )}
-                              />
-                            </button>
+                              >
+                                {item.label}
+                                <ChevronDown
+                                  className={cn(
+                                    'h-4 w-4 transition-transform duration-200',
+                                    expandedItem === item.label
+                                      ? 'rotate-180'
+                                      : ''
+                                  )}
+                                />
+                              </button>
+                            )}
                             <AnimatePresence>
                               {expandedItem === item.label && (
                                 <motion.ul
@@ -190,7 +254,12 @@ const MobileNavbar = ({ isVisible }: MobileNavbarProps) => {
                                       <Link
                                         href={subItem.href}
                                         onClick={closeMenu}
-                                        className="text-muted-foreground hover:bg-accent hover:text-primary block rounded-lg px-4 py-2.5 text-sm font-medium transition-colors"
+                                        className={cn(
+                                          'hover:bg-accent hover:text-primary block rounded-lg px-4 py-2.5 text-sm font-medium transition-colors',
+                                          pathname === subItem.href
+                                            ? 'bg-accent/50 text-primary'
+                                            : 'text-muted-foreground'
+                                        )}
                                       >
                                         {subItem.label}
                                       </Link>
@@ -204,7 +273,10 @@ const MobileNavbar = ({ isVisible }: MobileNavbarProps) => {
                           <Link
                             href={item.href}
                             onClick={closeMenu}
-                            className="hover:bg-accent hover:text-primary block rounded-lg px-4 py-3 text-sm font-bold text-white uppercase transition-colors"
+                            className={cn(
+                              'hover:bg-accent hover:text-primary block rounded-lg px-4 py-3 text-sm font-bold uppercase transition-colors',
+                              isItemActive(item) ? 'text-primary' : 'text-white'
+                            )}
                           >
                             {item.label}
                           </Link>

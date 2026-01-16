@@ -9,12 +9,14 @@ interface ScrollAreaProps extends React.ComponentProps<
   typeof ScrollAreaPrimitive.Root
 > {
   onScrollChange?: (scrollTop: number) => void;
+  viewportRef?: React.RefObject<HTMLDivElement | null>;
 }
 
 function ScrollArea({
   className,
   children,
   onScrollChange,
+  viewportRef,
   ...props
 }: ScrollAreaProps) {
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
@@ -30,6 +32,7 @@ function ScrollArea({
       {...props}
     >
       <ScrollAreaPrimitive.Viewport
+        ref={viewportRef}
         data-slot="scroll-area-viewport"
         className="size-full overflow-y-scroll rounded-[inherit]"
         onScroll={handleScroll}
@@ -53,7 +56,7 @@ function ScrollBar({
       orientation={orientation}
       forceMount
       className={cn(
-        'z-100 flex touch-none transition-colors select-none',
+        'z-[999999999999999999] flex touch-none transition-colors select-none',
         orientation === 'vertical' &&
           'h-full w-2.5 border-l border-l-transparent',
         orientation === 'horizontal' &&

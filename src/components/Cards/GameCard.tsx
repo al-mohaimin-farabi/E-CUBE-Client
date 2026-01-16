@@ -36,10 +36,10 @@ const GameCard = ({ game, className }: GameCardProps) => {
 
       {/* Content */}
       <div className="absolute right-0 bottom-0 left-0 p-4 text-center">
-        <h3 className="group-hover:text-primary type-md mb-1 font-bold text-white transition-colors">
+        <h3 className="group-hover:text-primary type-md mb-1 font-bold text-white transition-all duration-300 xl:translate-y-3 xl:group-hover:translate-y-0">
           {game?.title}
         </h3>
-        <p className="text-primary text-sm font-medium tracking-wide uppercase">
+        <p className="text-primary text-sm font-medium tracking-wide uppercase transition-all duration-300 xl:translate-y-4 xl:opacity-0 xl:group-hover:translate-y-0 xl:group-hover:opacity-100">
           {game?.tournamentCount} Tournaments
         </p>
       </div>

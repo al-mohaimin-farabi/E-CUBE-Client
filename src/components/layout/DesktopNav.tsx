@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -37,7 +38,35 @@ const DesktopNav = ({ isVisible }: { isVisible: boolean }) => {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [dropdownPosition, setDropdownPosition] = useState<number>(0);
   const navRef = useRef<HTMLDivElement>(null);
-  const triggerRefs = useRef<Map<string, HTMLButtonElement>>(new Map());
+  const triggerRefs = useRef<
+    Map<string, HTMLButtonElement | HTMLAnchorElement>
+  >(new Map());
+  const pathname = usePathname();
+
+  const isItemActive = (item: (typeof navItems)[0]) => {
+    // 1. Exact match
+    if (pathname === item.href) return true;
+
+    // 2. Check sub-items (active if any sub-item matches or is a parent of current path)
+    if (item.subItems) {
+      if (
+        item.subItems.some(
+          (subItem) =>
+            pathname === subItem.href || pathname.startsWith(`${subItem.href}/`)
+        )
+      ) {
+        return true;
+      }
+    }
+
+    // 3. Prefix match for the parent itself (e.g. /tournaments -> /tournaments/alltournament)
+    // Exclude root '/' to avoid matching everything
+    if (item.href !== '/' && pathname.startsWith(`${item.href}/`)) {
+      return true;
+    }
+
+    return false;
+  };
 
   const activeItem = navItems.find(
     (item) => item.label === activeDropdown && item.hasDropdown
@@ -97,32 +126,60 @@ const DesktopNav = ({ isVisible }: { isVisible: boolean }) => {
             >
               {navItems.map((item) =>
                 item.hasDropdown ? (
-                  <button
-                    key={item.label}
-                    ref={(el) => {
-                      if (el) triggerRefs.current.set(item.label, el);
-                    }}
-                    className={cn(
-                      'flex h-full cursor-pointer items-center gap-1 px-4 text-sm font-bold uppercase transition-colors',
-                      activeDropdown === item.label
-                        ? 'text-primary'
-                        : 'hover:text-primary text-white'
-                    )}
-                    onMouseEnter={() => handleMouseEnter(item.label)}
-                  >
-                    {item.label}
-                    <ChevronDown
+                  item.isParentClickable ? (
+                    <Link
+                      key={item.label}
+                      href={item.href}
+                      ref={(el) => {
+                        if (el) triggerRefs.current.set(item.label, el);
+                      }}
                       className={cn(
-                        'transition-transform w-4 duration-200',
-                        activeDropdown === item.label ? 'rotate-180' : ''
+                        'flex h-full cursor-pointer items-center gap-1 px-4 text-sm font-bold uppercase transition-colors',
+                        activeDropdown === item.label || isItemActive(item)
+                          ? 'text-primary'
+                          : 'hover:text-primary text-white'
                       )}
-                    />
-                  </button>
+                      onMouseEnter={() => handleMouseEnter(item.label)}
+                    >
+                      {item.label}
+                      <ChevronDown
+                        className={cn(
+                          'w-4 transition-transform duration-200',
+                          activeDropdown === item.label ? 'rotate-180' : ''
+                        )}
+                      />
+                    </Link>
+                  ) : (
+                    <button
+                      key={item.label}
+                      ref={(el) => {
+                        if (el) triggerRefs.current.set(item.label, el);
+                      }}
+                      className={cn(
+                        'flex h-full cursor-pointer items-center gap-1 px-4 text-sm font-bold uppercase transition-colors',
+                        activeDropdown === item.label || isItemActive(item)
+                          ? 'text-primary'
+                          : 'hover:text-primary text-white'
+                      )}
+                      onMouseEnter={() => handleMouseEnter(item.label)}
+                    >
+                      {item.label}
+                      <ChevronDown
+                        className={cn(
+                          'w-4 transition-transform duration-200',
+                          activeDropdown === item.label ? 'rotate-180' : ''
+                        )}
+                      />
+                    </button>
+                  )
                 ) : (
                   <Link
                     key={item.label}
                     href={item.href}
-                    className="hover:text-primary flex h-full cursor-pointer items-center px-4 text-sm font-bold text-white uppercase transition-colors"
+                    className={cn(
+                      'hover:text-primary flex h-full cursor-pointer items-center px-4 text-sm font-bold uppercase transition-colors',
+                      isItemActive(item) ? 'text-primary' : 'text-white'
+                    )}
                     onMouseEnter={() => setActiveDropdown(null)}
                   >
                     {item.label}
@@ -171,7 +228,12 @@ const DesktopNav = ({ isVisible }: { isVisible: boolean }) => {
                           <Link
                             key={subItem.label}
                             href={subItem.href}
-                            className="hover:bg-accent hover:text-primary block rounded-sm px-4 py-2.5 text-sm font-medium whitespace-nowrap text-white transition-colors"
+                            className={cn(
+                              'hover:bg-accent hover:text-primary block rounded-sm px-4 py-2.5 text-sm font-medium whitespace-nowrap transition-colors',
+                              pathname === subItem.href
+                                ? 'bg-accent/50 text-primary'
+                                : 'text-white'
+                            )}
                           >
                             {subItem.label}
                           </Link>

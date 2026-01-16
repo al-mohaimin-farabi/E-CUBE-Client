@@ -19,7 +19,7 @@ const FeturedTournaments = () => {
 
   return (
     <SectionWrapper compact >
-      <SectionTitle href="/tournaments" title="Featured Tournaments" />
+      <SectionTitle href="/tournaments/alltournament" title="Featured Tournaments" />
 
       {/* Container Query Wrapper */}
       <div className="@container">

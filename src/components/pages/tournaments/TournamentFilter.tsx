@@ -1,10 +1,9 @@
 'use client';
 
-import React, { useState, forwardRef } from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { IoMdArrowDropdown } from 'react-icons/io';
-import { AnimatePresence, motion } from 'framer-motion';
 import { useAppDispatch } from '@/redux/hooks';
 import { setFilters } from '@/redux/features/tournaments/tournamentSlice';
 import {
@@ -14,344 +13,185 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-interface FilterItemProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+// Reusable Dropdown Component
+interface FilterDropdownProps {
   label: string;
-  hasDropdown?: boolean;
-  isActive?: boolean;
-  isOpen?: boolean; // Mobile accordion state
+  value: string;
+  options: string[];
+  onChange: (val: string) => void;
+  className?: string; // For custom layout overrides if needed
+  lastItem?: boolean;
 }
 
-const FilterItem = forwardRef<HTMLButtonElement, FilterItemProps>(
-  (
-    { label, hasDropdown, isActive, isOpen, className, onClick, ...props },
-    ref
-  ) => {
-    return (
+const FilterDropdown = ({
+  label,
+  value,
+  options,
+  onChange,
+  lastItem,
+}: FilterDropdownProps) => (
+  <DropdownMenu>
+    <DropdownMenuTrigger asChild>
       <button
-        ref={ref}
-        onClick={onClick}
         className={cn(
-          // Base styles (Mobile: stack, full width, space between)
-          'group text-muted-foreground relative flex h-[46px] w-full flex-none cursor-pointer items-center justify-between px-6 text-sm font-medium whitespace-nowrap transition-colors hover:text-white',
-          // Desktop overrides (Row, auto width, center content)
-          'md:h-full md:w-auto md:justify-center md:gap-2',
-          'ring-0 outline-none focus:ring-0 focus:outline-none',
-          isActive && 'bg-white/5 text-white',
-          className
+          'group hover:bg-border relative flex h-full flex-1 cursor-pointer flex-col justify-center px-4 transition-colors focus:outline-none md:px-6',
+          !lastItem && 'border-border border-r'
         )}
-        {...props}
       >
-        {label}
-        {hasDropdown && (
-          <IoMdArrowDropdown
-            className={cn(
-              'text-border pointer-events-none h-6 w-6 transition-transform duration-200',
-              isOpen && 'rotate-180' // Mobile rotation
-            )}
-          />
-        )}
+        <div className="flex w-full items-center justify-between">
+          <div className="flex flex-col items-start gap-1">
+            <span className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
+              {label}
+            </span>
+            <span className="text-sm font-bold whitespace-nowrap text-white">
+              {value || 'All'}
+            </span>
+          </div>
+          <IoMdArrowDropdown className="text-muted-foreground h-5 w-5 transition-colors group-hover:text-white" />
+        </div>
       </button>
-    );
-  }
+    </DropdownMenuTrigger>
+    <DropdownMenuContent
+      align="start"
+      className="border-border z-99999999999 w-[200px] bg-[#0b0e12] p-1 text-white shadow-xl backdrop-blur-xl"
+    >
+      {options.map((opt) => (
+        <DropdownMenuItem
+          key={opt}
+          onClick={() => onChange(opt)}
+          className="focus:bg-primary/20 focus:text-primary cursor-pointer font-medium"
+        >
+          {opt}
+        </DropdownMenuItem>
+      ))}
+    </DropdownMenuContent>
+  </DropdownMenu>
 );
-FilterItem.displayName = 'FilterItem';
 
 export const TournamentFilter = () => {
   const dispatch = useAppDispatch();
-  const [activeTab, setActiveTab] = useState('Overview');
-  const [region, setRegion] = useState('Region');
-  const [sortBy, setSortBy] = useState('Sort by');
 
-  // Mobile Accordion States
-  const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
-  const [isRegionOpen, setIsRegionOpen] = useState(false);
-  const [isSortOpen, setIsSortOpen] = useState(false);
+  // Filter States
+  const [game, setGame] = useState('All Games');
+  const [time, setTime] = useState('Upcoming'); // Mapped to "Date" visual
+  const [region, setRegion] = useState('Global');
+  const [mode, setMode] = useState('5v5');
+  const [sortBy, setSortBy] = useState('Newest');
 
-  const handleTabClick = (label: string) => {
-    setActiveTab(label);
-    // You might also dispatch a tab change here if the store filters by tab (e.g. status)
-  };
+  // Mobile Collapse State
+  const [isExpanded, setIsExpanded] = useState(false);
 
-  const applyFilters = (newRegion: string, newSortBy: string) => {
+  // Options
+  const gameOptions = [
+    'All Games',
+    'Valorant',
+    'CS:GO',
+    'Dota 2',
+    'League of Legends',
+    'Mobile Legends',
+  ];
+  const timeOptions = ['All Time', 'Upcoming', 'Ongoing', 'Past'];
+  const regionOptions = [
+    'Global',
+    'North America',
+    'Europe',
+    'Asia',
+    'South America',
+  ];
+  const modeOptions = ['All Modes', '1v1', '2v2', '5v5', 'Battle Royale'];
+  const sortOptions = ['Newest', 'Prize Pool', 'Most Popular'];
+
+  const handleApply = () => {
     dispatch(
       setFilters({
-        region: newRegion,
-        sortBy: newSortBy,
+        region: region === 'Global' ? 'All' : region, // Normalize if needed
+        game: game === 'All Games' ? 'All' : game,
+        mode: mode === 'All Modes' ? 'All' : mode,
+        sortBy: sortBy.toLowerCase(),
       })
     );
+    // You handle other filters (game, status, mode) similarly in Redux if supported
+    console.log('Filters Applied:', { game, time, region, mode, sortBy });
+
+    // Close on mobile after apply
+    setIsExpanded(false);
   };
-
-  const handleRegionChange = (val: string) => {
-    setRegion(val);
-    applyFilters(val, sortBy); // Apply immediately on desktop/mobile
-  };
-
-  const handleSortChange = (val: string) => {
-    setSortBy(val);
-    applyFilters(region, val); // Apply immediately on desktop/mobile
-  };
-
-  const regionOptions = ['All', 'Global', 'North America', 'Europe', 'Asia'];
-  const sortOptions = ['Newest', 'Oldest'];
-
-  // Desktop Content (Horizontal Bar)
-  const DesktopContent = (
-    <div className="hidden w-full flex-row items-center justify-center gap-2 @[920px]:flex">
-      {/* Main Filter Bar */}
-      <div className="border-border bg-card flex h-[46px] w-fit flex-row items-center rounded-[2px] border">
-        <FilterItem
-          label="Overview"
-          isActive={activeTab === 'Overview'}
-          onClick={() => handleTabClick('Overview')}
-          className="border-border border-r"
-        />
-        <FilterItem
-          label="Rulebook"
-          isActive={activeTab === 'Rulebook'}
-          onClick={() => handleTabClick('Rulebook')}
-          className="border-border border-r"
-        />
-        <FilterItem
-          label="Schedule"
-          isActive={activeTab === 'Schedule'}
-          onClick={() => handleTabClick('Schedule')}
-          className="border-border border-r"
-        />
-        <FilterItem
-          label="Bracket"
-          isActive={activeTab === 'Bracket'}
-          onClick={() => handleTabClick('Bracket')}
-          className="border-border border-r"
-        />
-        <FilterItem
-          label="Participated Teams"
-          isActive={activeTab === 'Participated Teams'}
-          onClick={() => handleTabClick('Participated Teams')}
-          className="border-border border-r"
-        />
-
-        {/* Region (Popover) */}
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <FilterItem
-              label={region}
-              hasDropdown
-              isActive={region !== 'Region'}
-              className="border-border border-r"
-            />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent
-            align="end"
-            className="border-border bg-card z-200 min-w-[160px] rounded-[2px] text-white"
-          >
-            {regionOptions.map((opt) => (
-              <DropdownMenuItem
-                key={opt}
-                className="cursor-pointer rounded-[2px] focus:bg-white/10 focus:text-white"
-                onClick={() => handleRegionChange(opt)}
-              >
-                {opt}
-              </DropdownMenuItem>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
-
-        {/* Sort (Popover, Last Item) */}
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <FilterItem
-              label={sortBy}
-              hasDropdown
-              isActive={sortBy !== 'Sort by'}
-              // No border-r for last item
-            />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent
-            align="end"
-            className="border-border bg-card z-200 min-w-[160px] rounded-[2px] text-white"
-          >
-            {sortOptions.map((opt) => (
-              <DropdownMenuItem
-                key={opt}
-                className="cursor-pointer rounded-[2px] focus:bg-white/10 focus:text-white"
-                onClick={() => handleSortChange(opt)}
-              >
-                {opt}
-              </DropdownMenuItem>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
-
-      {/* Filter Button (Functional on Desktop dispatching same action if needed, currently apply immediate) */}
-      <Button
-        className="h-[46px] w-auto cursor-pointer rounded-[2px] px-8 text-sm font-bold text-white"
-        onClick={() => {
-          // Re-apply or just log
-          applyFilters(region, sortBy);
-        }}
-      >
-        Filter
-      </Button>
-    </div>
-  );
-
-  // Mobile Content (Collapsible Vertical Stack)
-  const MobileContent = (
-    <div className="flex w-full flex-col @[920px]:hidden">
-      {/* Toggle Button */}
-      <Button
-        onClick={() => setIsMobileFilterOpen(!isMobileFilterOpen)}
-        className="group flex h-[46px] w-full items-center justify-between rounded-[2px] px-6 text-sm font-bold text-white hover:bg-white/20 active:bg-white/20"
-      >
-        Filter
-        <IoMdArrowDropdown
-          className={cn(
-            'h-6 w-6 transition-transform duration-200',
-            isMobileFilterOpen && 'rotate-180'
-          )}
-        />
-      </Button>
-
-      {/* Expandable Area */}
-      <AnimatePresence>
-        {isMobileFilterOpen && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            className="overflow-hidden"
-          >
-            <div className="border-border bg-card mt-2 flex flex-col rounded-[2px] border">
-              <FilterItem
-                label="Overview"
-                isActive={activeTab === 'Overview'}
-                onClick={() => handleTabClick('Overview')}
-                className="border-border border-b first:rounded-t-[2px]"
-              />
-              <FilterItem
-                label="Rulebook"
-                isActive={activeTab === 'Rulebook'}
-                onClick={() => handleTabClick('Rulebook')}
-                className="border-border border-b"
-              />
-              <FilterItem
-                label="Schedule"
-                isActive={activeTab === 'Schedule'}
-                onClick={() => handleTabClick('Schedule')}
-                className="border-border border-b"
-              />
-              <FilterItem
-                label="Bracket"
-                isActive={activeTab === 'Bracket'}
-                onClick={() => handleTabClick('Bracket')}
-                className="border-border border-b"
-              />
-              <FilterItem
-                label="Participated Teams"
-                isActive={activeTab === 'Participated Teams'}
-                onClick={() => handleTabClick('Participated Teams')}
-                className="border-border border-b"
-              />
-
-              {/* Region Accordion */}
-              <div className="border-border border-b">
-                <FilterItem
-                  label={region}
-                  hasDropdown
-                  isActive={region !== 'Region'}
-                  isOpen={isRegionOpen}
-                  onClick={() => {
-                    setIsRegionOpen(!isRegionOpen);
-                    if (!isRegionOpen) setIsSortOpen(false);
-                  }}
-                />
-                <AnimatePresence>
-                  {isRegionOpen && (
-                    <motion.div
-                      initial={{ height: 0 }}
-                      animate={{ height: 'auto' }}
-                      exit={{ height: 0 }}
-                      className="overflow-hidden bg-black/20"
-                    >
-                      {regionOptions.map((opt) => (
-                        <div
-                          key={opt}
-                          onClick={() => {
-                            setRegion(opt); // State update
-                            setIsRegionOpen(false);
-                          }}
-                          className="border-border text-muted-foreground hover:text-primary cursor-pointer border-t px-8 py-3 text-sm font-medium transition-colors"
-                        >
-                          {opt}
-                        </div>
-                      ))}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-
-              {/* Sort Accordion */}
-              <div>
-                <FilterItem
-                  label={sortBy}
-                  hasDropdown
-                  isActive={sortBy !== 'Sort by'}
-                  isOpen={isSortOpen}
-                  onClick={() => {
-                    setIsSortOpen(!isSortOpen);
-                    if (!isSortOpen) setIsRegionOpen(false);
-                  }}
-                  className={cn(!isSortOpen && 'rounded-b-[2px]')}
-                />
-                <AnimatePresence>
-                  {isSortOpen && (
-                    <motion.div
-                      initial={{ height: 0 }}
-                      animate={{ height: 'auto' }}
-                      exit={{ height: 0 }}
-                      className="overflow-hidden rounded-b-[2px] bg-black/20"
-                    >
-                      {sortOptions.map((opt) => (
-                        <div
-                          key={opt}
-                          onClick={() => {
-                            setSortBy(opt); // State update
-                            setIsSortOpen(false);
-                          }}
-                          className="border-border text-muted-foreground hover:text-primary cursor-pointer border-t px-8 py-3 text-sm font-medium transition-colors"
-                        >
-                          {opt}
-                        </div>
-                      ))}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            </div>
-
-            {/* Apply Button */}
-            <div className="mt-2 text-center">
-              <Button
-                className="h-[46px] w-full rounded-[2px] font-bold text-white"
-                onClick={() => {
-                  applyFilters(region, sortBy); // Actually filter on click
-                  setIsMobileFilterOpen(false);
-                }}
-              >
-                Apply Filters
-              </Button>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
-  );
 
   return (
-    <div className="@container">
-      {DesktopContent}
-      {MobileContent}
+    <div className="relative z-50 mx-auto w-full max-w-[1200px] shadow-2xl">
+      {/* Mobile Toggle */}
+      <div className="mb-2 w-full md:hidden">
+        <Button
+          onClick={() => setIsExpanded(!isExpanded)}
+          className="bg-primary hover:bg-primary/90 h-12 w-full font-bold tracking-wider text-white uppercase"
+        >
+          {isExpanded ? 'Hide Filters' : 'Filter Games'}
+        </Button>
+      </div>
+
+      {/* Filter Container */}
+      <div
+        className={cn(
+          'border-border overflow-hidden rounded border bg-[#14181f]/90 backdrop-blur-sm transition-all duration-300 ease-in-out',
+          // Desktop styles
+          'md:flex md:h-14 md:flex-row md:items-stretch md:overflow-visible',
+          // Mobile styles
+          isExpanded
+            ? 'flex h-auto flex-col opacity-100'
+            : 'hidden h-0 opacity-0 md:flex md:h-14 md:opacity-100'
+        )}
+      >
+        {/* Game Filter */}
+        <FilterDropdown
+          label="Game"
+          value={game}
+          options={gameOptions}
+          onChange={setGame}
+        />
+
+        {/* Date/Time Filter */}
+        <FilterDropdown
+          label="Date"
+          value={time}
+          options={timeOptions}
+          onChange={setTime}
+        />
+
+        {/* Region Filter */}
+        <FilterDropdown
+          label="Region"
+          value={region}
+          options={regionOptions}
+          onChange={setRegion}
+        />
+
+        {/* Mode Filter */}
+        <FilterDropdown
+          label="Mode"
+          value={mode}
+          options={modeOptions}
+          onChange={setMode}
+        />
+
+        {/* Sort Filter */}
+        <FilterDropdown
+          label="Sorted by"
+          value={sortBy}
+          options={sortOptions}
+          onChange={setSortBy}
+          lastItem
+        />
+
+        {/* Filter Button */}
+        <div className="flex w-full items-center p-2 md:w-auto md:p-0">
+          <Button
+            onClick={handleApply}
+            className="bg-primary hover:bg-primary/90 h-10 w-full rounded px-10 text-base font-bold tracking-wider text-white uppercase shadow-none transition-all active:scale-[0.98] md:h-full md:rounded-l-none md:rounded-r"
+          >
+            Filter
+          </Button>
+        </div>
+      </div>
     </div>
   );
 };

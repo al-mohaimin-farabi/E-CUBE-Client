@@ -1,31 +1,19 @@
-import PageHeader from '@/components/common/PageHeader';
-import { TournamentFilter } from '@/components/pages/tournaments/TournamentFilter';
-import { TournamentList } from '@/components/pages/tournaments/TournamentInfoCard';
-import { ScrollToTop } from '@/components/ui/ScrollToTop';
+import FeturedTournaments from '@/components/pages/tournaments/FeturedTournaments';
+import TournamentHero from '@/components/pages/tournaments/Hero';
+import HighLightCardSection from '@/components/pages/tournaments/HighLightCardSection';
+import LatestContent from '@/components/pages/tournaments/LatestContent';
+import PopularGames from '@/components/pages/tournaments/PopularGames';
+import WhoAreWe from '@/components/pages/tournaments/WhoAreWe';
 
-const stats = {
-  registrationStatus: true,
-  prizePool: '10,000',
-  playerJoined: '1,200',
-};
-
-const tournaments = () => {
+export default function TournamentsPage() {
   return (
-    <main>
-      <PageHeader
-        title="Valorant Ulimate Showdown Battleground 1.0 "
-        items={stats}
-      />
-      <div className="layout-padding container-wide pt-6!">
-        <div className="mx-auto">
-          <TournamentFilter />
-        </div>
-        <div className="mt-6">
-          <TournamentList />
-        </div>
-      </div>
-    </main>
+    <>
+      <TournamentHero />
+      <FeturedTournaments />
+      <PopularGames />
+      <HighLightCardSection />
+      <LatestContent />
+      <WhoAreWe />
+    </>
   );
-};
-
-export default tournaments;
+}

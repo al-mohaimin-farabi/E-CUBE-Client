@@ -19,6 +19,7 @@ const LatestContent = () => {
             title={content.title}
             imageSrc={content.image}
             platform={content.platform}
+            video={content.video}
           />
         ))}
       </div>
