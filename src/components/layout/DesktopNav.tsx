@@ -113,7 +113,7 @@ const DesktopNav = ({ isVisible }: { isVisible: boolean }) => {
                     {item.label}
                     <ChevronDown
                       className={cn(
-                        'transition-transform duration-200',
+                        'transition-transform w-4 duration-200',
                         activeDropdown === item.label ? 'rotate-180' : ''
                       )}
                     />

@@ -1,12 +1,12 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import { footerSections, footerCTA } from '@/config/footer';
+import { footerSections, footerCTA, socialLinks } from '@/config/footer';
 import { FaDiscord } from 'react-icons/fa';
 
 const Footer = () => {
   return (
-    <footer className="mt-16 bg-[#0E1113]">
+    <footer className="pt-16">
       {/* Discord Banner */}
       <div className="layout-padding flex min-h-[50px] items-center justify-center bg-[#5865F2] py-3! text-white sm:py-3!">
         <div className="flex flex-wrap items-center justify-center gap-4 text-center">
@@ -34,7 +34,7 @@ const Footer = () => {
       </div>
 
       {/* Main Footer Content */}
-      <div className="layout-padding container-wide @container py-16! text-white">
+      <div className="layout-padding container-wide @container bg-[#0E1113] py-16! text-white">
         <div className="grid grid-cols-1 gap-8 @[1308px]:grid-cols-12">
           <div className="shrink-0 @[1308px]:col-span-2">
             <Link href="/">
@@ -46,6 +46,19 @@ const Footer = () => {
                 className="h-10 w-auto shrink-0 object-contain whitespace-nowrap"
               />
             </Link>
+            <div className="mt-6 flex flex-wrap gap-4">
+              {socialLinks.map(({ icon: Icon, href, label }) => (
+                <Link
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary transition-colors hover:text-white"
+                >
+                  <Icon className="h-6 w-6" />
+                </Link>
+              ))}
+            </div>
           </div>
           <div className="grid grid-cols-1 gap-y-8 @[1308px]:col-span-10 @xs:grid-cols-[repeat(auto-fit,minmax(250px,1fr))]">
             {footerSections.map((section) => (

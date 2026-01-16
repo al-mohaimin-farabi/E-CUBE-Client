@@ -1,5 +1,12 @@
 import { navItems } from './nav-items';
-
+import {
+  FaDiscord,
+  FaFacebook,
+  FaInstagram,
+  FaTiktok,
+  FaTwitch,
+  FaYoutube,
+} from 'react-icons/fa';
 const games = navItems.find((item) => item.label === 'GAMES')?.subItems || [];
 
 export interface FooterLink {
@@ -53,3 +60,36 @@ export const footerCTA = {
   discordLink: 'https://discord.gg',
   label: 'Join Now',
 };
+
+export const socialLinks = [
+  {
+    label: 'Facebook',
+    icon: FaFacebook,
+    href: 'https://facebook.com',
+  },
+  {
+    label: 'YouTube',
+    icon: FaYoutube,
+    href: 'https://youtube.com',
+  },
+  {
+    label: 'Discord',
+    icon: FaDiscord,
+    href: 'https://discord.gg',
+  },
+  {
+    label: 'Twitch',
+    icon: FaTwitch,
+    href: 'https://twitch.tv',
+  },
+  {
+    label: 'Instagram',
+    icon: FaInstagram,
+    href: 'https://instagram.com',
+  },
+  {
+    label: 'TikTok',
+    icon: FaTiktok,
+    href: 'https://tiktok.com',
+  },
+];

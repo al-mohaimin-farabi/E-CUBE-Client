@@ -134,7 +134,7 @@ const MobileNavbar = ({ isVisible }: MobileNavbarProps) => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm lg:hidden"
+              className="fixed inset-0 z-99 bg-black/60 backdrop-blur-sm lg:hidden" 
               onClick={closeMenu}
             />
 
@@ -145,7 +145,7 @@ const MobileNavbar = ({ isVisible }: MobileNavbarProps) => {
               animate="open"
               exit="closed"
               transition={{ type: 'spring', stiffness: 400, damping: 40 }}
-              className="bg-card fixed top-0 right-0 bottom-0 z-40 w-80 max-w-[85vw] overflow-hidden shadow-2xl lg:hidden"
+              className="bg-card fixed top-0 right-0 bottom-0 z-999 w-80 max-w-[85vw] overflow-hidden shadow-2xl lg:hidden"
             >
               {/* Menu Content */}
               <div className="flex h-full flex-col pt-20">

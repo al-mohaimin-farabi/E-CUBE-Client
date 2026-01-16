@@ -11,7 +11,7 @@ const GameCard = ({ game, className }: GameCardProps) => {
   return (
     <div
       className={cn(
-        'group bg-card hover:border-primary border-border relative aspect-3/2 w-full overflow-hidden rounded-md border shadow-sm transition-all h-[400px] hover:shadow-lg',
+        'group bg-card hover:border-primary border-border relative aspect-3/2 h-[400px] w-full overflow-hidden rounded-md border shadow-sm transition-all hover:shadow-lg',
         className
       )}
     >
@@ -20,7 +20,7 @@ const GameCard = ({ game, className }: GameCardProps) => {
         src={game?.image}
         alt={game?.title}
         fill
-        className="object-cover transition-transform duration-500 group-hover:scale-110 aspect-3/2!"
+        className="aspect-3/2! object-cover transition-transform duration-500 group-hover:scale-110"
       />
 
       {/* Overlay Gradient: Darker at the bottom for text readability */}
@@ -31,10 +31,10 @@ const GameCard = ({ game, className }: GameCardProps) => {
         <div className="absolute top-3 right-3">
           <span
             className={cn(
-              'rounded-full px-2 py-1 text-[10px] font-bold tracking-wider text-black uppercase',
+              'rounded-full px-2 py-1 text-[10px] font-bold tracking-wider text-white uppercase',
               game?.platform === 'Mobile'
-                ? 'bg-yellow-500' // Custom color for mobile
-                : 'bg-[#ed9c00]' // Default orange/primary
+                ? 'bg-primary' // Custom color for mobile
+                : 'bg-primary' // Default orange/primary
             )}
           >
             {game?.platform}
@@ -47,7 +47,7 @@ const GameCard = ({ game, className }: GameCardProps) => {
         <h3 className="group-hover:text-primary type-md mb-1 font-bold text-white transition-colors">
           {game?.title}
         </h3>
-        <p className="text-sm font-medium tracking-wide text-[#ed9c00] uppercase">
+        <p className="text-sm font-medium tracking-wide text-primary uppercase">
           {game?.tournamentCount} Tournaments
         </p>
       </div>

@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 
 const WhoAreWe = () => {
   return (
-    <section className="w-full mt-8 mb-16">
+    <section className="w-full mt-8  mb-16">
       <div className="flex w-full flex-col lg:flex-row">
         {/* Left Side - Primary Color */}
         <div className="bg-primary flex w-full flex-none justify-end py-6 md:py-10 lg:w-1/2 lg:py-12">
