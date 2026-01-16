@@ -24,8 +24,8 @@ const SectionWrapper = ({
       : narrowall
         ? 'container-wide '
         : compact
-          ? 'pt-8 pb-16 px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16'
-          : 'px-4 py-12 sm:px-6 md:py-16 lg:px-8 lg:py-20 xl:px-12 xl:py-24 2xl:px-16';
+          ? 'pt-8 pb-10 px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16'
+          : 'px-4 py-12 sm:px-6 md:py-16 lg:px-8 lg:py-20 xl:px-12 xl:py-24 2xl:px-16'; 
 
   return (
     <main className={cn(basePadding, 'container-wide', className)}>
