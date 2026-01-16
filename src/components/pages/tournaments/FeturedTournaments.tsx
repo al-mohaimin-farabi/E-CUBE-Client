@@ -23,7 +23,7 @@ const FeturedTournaments = () => {
 
       {/* Container Query Wrapper */}
       <div className="@container">
-        <div className="grid grid-cols-1 gap-4 @xl:grid-cols-2 @6xl:grid-cols-4">
+        <div className="grid grid-cols-1 gap-4 xl:gap-6 @xl:grid-cols-2 @6xl:grid-cols-4">
           {featuredTournaments.map((tournament) => (
             <TournamentCard key={tournament.id} tournament={tournament} />
           ))}

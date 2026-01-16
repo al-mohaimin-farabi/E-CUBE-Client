@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import type { Game } from '@/redux/features/games/gamesSlice';
+import PlatformBadge from '@/components/badges/PlatformBadge';
 
 interface GameCardProps {
   game: Game;
@@ -29,16 +30,7 @@ const GameCard = ({ game, className }: GameCardProps) => {
       {/* Platform Badge */}
       {game.platform && (
         <div className="absolute top-3 right-3">
-          <span
-            className={cn(
-              'rounded-full px-2 py-1 text-[10px] font-bold tracking-wider text-white uppercase',
-              game?.platform === 'Mobile'
-                ? 'bg-primary' // Custom color for mobile
-                : 'bg-primary' // Default orange/primary
-            )}
-          >
-            {game?.platform}
-          </span>
+          <PlatformBadge platform={game.platform} />
         </div>
       )}
 
@@ -47,7 +39,7 @@ const GameCard = ({ game, className }: GameCardProps) => {
         <h3 className="group-hover:text-primary type-md mb-1 font-bold text-white transition-colors">
           {game?.title}
         </h3>
-        <p className="text-sm font-medium tracking-wide text-primary uppercase">
+        <p className="text-primary text-sm font-medium tracking-wide uppercase">
           {game?.tournamentCount} Tournaments
         </p>
       </div>

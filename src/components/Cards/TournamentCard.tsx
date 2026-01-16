@@ -3,6 +3,8 @@ import { Trophy } from 'lucide-react';
 import type { Tournament } from '@/redux/features/tournaments/tournamentSlice';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
+import GameBadge from '@/components/badges/GameBadge';
+import PlatformBadge from '@/components/badges/PlatformBadge';
 
 interface TournamentCardProps {
   tournament: Tournament;
@@ -35,20 +37,17 @@ const TournamentCard = ({ tournament, className }: TournamentCardProps) => {
 
         {/* Badges */}
         <div className="absolute top-3 right-3 flex gap-2">
-          {tournament.game && (
-            <span className="rounded-full bg-red-600 px-2 py-1 text-[10px] font-bold tracking-wider text-white uppercase">
-              {tournament.game}
-            </span>
-          )}
+          {tournament.game && <GameBadge game={tournament.game} />}
           {tournament.platform && (
-            <span className="rounded-full bg-black/60 px-4 py-1 text-[10px] font-bold tracking-wider text-white uppercase backdrop-blur-sm">
-              {tournament.platform}
-            </span>
+            <PlatformBadge
+              platform={tournament.platform}
+              
+            />
           )}
         </div>
 
         {/* Prize Pool Overlay */}
-        <div className="absolute right-0 bottom-0 left-0 flex items-center gap-2 bg-black/60 px-3 py-2">
+        <div className="absolute right-0 bottom-0 left-0 flex items-center gap-2 bg-linear-to-r from-black/80 from-60% to-transparent px-4 py-1">
           <Trophy className="size-5 text-[#ed9c00]" />
           <span className="text-lg font-bold text-white">
             {tournament.prizePool}

@@ -17,7 +17,7 @@ const PopularGames = () => {
       <SectionTitle href="/games" title="Popular Games" />
 
       {/* Grid Layout: Adapted for 5 items */}
-      <div className="grid grid-cols-1 gap-4 @[450px]:grid-cols-2 @2xl:grid-cols-3 @6xl:grid-cols-5">
+      <div className="grid grid-cols-1 gap-4 @7xl:gap-6 @[450px]:grid-cols-2 @2xl:grid-cols-3 @6xl:grid-cols-5">
         {featuredGames.map((game) => (
           <GameCard key={game.id} game={game} />
         ))}
