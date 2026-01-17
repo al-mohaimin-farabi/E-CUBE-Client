@@ -34,8 +34,6 @@ const TournamentsPage = () => {
         sortBy: 'Newest',
       })
     );
-    // Reload page to clear local state if needed
-    window.location.reload();
   };
 
   return (
@@ -58,7 +56,7 @@ const TournamentsPage = () => {
           {/* Floating Filter Bar */}
           <TournamentFilter />
         </div>
-        <div className="absolute inset-0 z-10 bg-[url('https://loremflickr.com/1920/1080/esports,arena')] mask-[linear-gradient(to_bottom,black_40%,transparent_100%)] h-[20vh] bg-cover bg-top bg-no-repeat"></div>
+        <div className="absolute inset-0 z-10 h-[20vh] bg-[url('https://loremflickr.com/1920/1080/esports,arena')] mask-[linear-gradient(to_bottom,black_40%,transparent_100%)] bg-cover bg-top bg-no-repeat"></div>
       </header>
 
       {/* Main Content: Add margin to clear the floating filter */}

@@ -1,10 +1,8 @@
-'use client';
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { IoMdArrowDropdown } from 'react-icons/io';
-import { useAppDispatch } from '@/redux/hooks';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { setFilters } from '@/redux/features/tournaments/tournamentSlice';
 import {
   DropdownMenu,
@@ -70,6 +68,7 @@ const FilterDropdown = ({
 
 export const TournamentFilter = () => {
   const dispatch = useAppDispatch();
+  const activeFilters = useAppSelector((state) => state.tournaments.filters);
 
   // Filter States
   const [game, setGame] = useState('All Games');
@@ -100,6 +99,43 @@ export const TournamentFilter = () => {
   ];
   const modeOptions = ['All Modes', '1v1', '2v2', '5v5', 'Battle Royale'];
   const sortOptions = ['Newest', 'Prize Pool', 'Most Popular'];
+
+  // Sync local state with Redux state (handles Reset logic)
+  useEffect(() => {
+    const findOption = (
+      opts: string[],
+      val: string | undefined,
+      defaultVal: string
+    ) => {
+      if (
+        !val ||
+        val.toLowerCase() === 'all' ||
+        val === 'Region' ||
+        val === 'Game' ||
+        val === 'Mode' ||
+        val === 'Sort by'
+      )
+        return defaultVal;
+      return (
+        opts.find((o) => o.toLowerCase() === val.toLowerCase()) || defaultVal
+      );
+    };
+
+    setRegion(
+      findOption(regionOptions, activeFilters.region, regionOptions[0])
+    );
+    setGame(findOption(gameOptions, activeFilters.game, gameOptions[0]));
+    setMode(findOption(modeOptions, activeFilters.mode, modeOptions[0]));
+    setSortBy(findOption(sortOptions, activeFilters.sortBy, sortOptions[0]));
+
+    // Reset time if all filters are default (heuristic for a full reset)
+    if (activeFilters.game === 'Game' && activeFilters.region === 'Region') {
+      setTime(timeOptions[0]); // Reset to "All Time" or "Upcoming"? Usually "All Time" if resetting? But state init was "Upcoming".
+      // Let's stick to component init: "Upcoming" is index 1.
+      // Actually user init was 'Upcoming'
+      setTime('Upcoming');
+    }
+  }, [activeFilters]);
 
   const handleApply = () => {
     dispatch(
@@ -136,7 +172,7 @@ export const TournamentFilter = () => {
       </div>
       <div
         className={cn(
-          'h-full w-full md:flex transition-all duration-300 ease-in-out',
+          'h-full w-full transition-all duration-300 ease-in-out md:flex',
           isExpanded
             ? 'max-h-[500px] opacity-100'
             : 'max-h-0 opacity-0 md:max-h-none md:opacity-100'
@@ -145,7 +181,7 @@ export const TournamentFilter = () => {
         {/* Filter Container */}
         <div
           className={cn(
-            'border-border bg-background/60 w-full rounded-b-none! md:rounded-b! overflow-hidden rounded md:rounded-r-none border md:border-r-0 backdrop-blur-sm',
+            'border-border bg-background/60 w-full overflow-hidden rounded rounded-b-none! border backdrop-blur-sm md:rounded-r-none md:rounded-b! md:border-r-0',
             // Desktop styles
             'md:flex md:h-14 md:flex-row md:items-stretch md:overflow-visible',
             // Mobile styles with max-height transition

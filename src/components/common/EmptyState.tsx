@@ -2,6 +2,7 @@ import React from 'react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { SearchX } from 'lucide-react';
 
 interface EmptyStateProps {
   title?: string;
@@ -23,28 +24,15 @@ const EmptyState = ({
   return (
     <div
       className={cn(
-        'flex min-h-[400px] w-full flex-col items-center justify-center gap-6 rounded-md overflow-hidden bg-border/40 px-4 py-12 text-center backdrop-blur-sm md:px-8',
+        'bg-border/40 border-border flex min-h-[400px] w-full flex-col items-center justify-center gap-6 overflow-hidden rounded-md border px-4 py-12 text-center backdrop-blur-sm md:px-8',
         className
       )}
     >
       {/* Icon / Graphic */}
       <div className="relative flex items-center justify-center pt-8">
         <div className="bg-primary/20 absolute h-32 w-32 rounded-full blur-3xl"></div>
-        <div className="relative z-10 flex h-24 w-24 items-center justify-center rounded-2xl border border-white/10 bg-linear-to-br from-white/5 to-white/0 shadow-2xl">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="text-muted-foreground h-10 w-10 opacity-70"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={1.5}
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-            />
-          </svg>
+        <div className="border-border bg-background/50 relative z-10 flex h-24 w-24 items-center justify-center rounded-2xl border shadow-2xl">
+          <SearchX className="text-muted-foreground h-10 w-10 opacity-70" />
         </div>
       </div>
 
@@ -59,20 +47,13 @@ const EmptyState = ({
 
       <div className="flex gap-4">
         {onReset && (
-          <Button
-            onClick={onReset}
-            variant="outline"
-            className="border-primary text-primary hover:bg-primary/10 hover:text-primary-foreground h-12 rounded-xl px-8 font-semibold tracking-wider uppercase"
-          >
+          <Button size={'xl'} onClick={onReset} variant="outline" className="shadow-black/25 shadow-lg">
             Reset Filters
           </Button>
         )}
 
         {actionLabel && actionLink && (
-          <Button
-            asChild
-            className="bg-primary hover:bg-primary/90 shadow-primary/25 h-12 rounded-xl px-8 font-semibold tracking-wider text-white uppercase shadow-lg"
-          >
+          <Button asChild size={'xl'} className="shadow-primary/25 shadow-lg">
             <Link href={actionLink}>{actionLabel}</Link>
           </Button>
         )}
