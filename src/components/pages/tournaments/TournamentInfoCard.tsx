@@ -1,6 +1,5 @@
 'use client';
 
-import { useAppSelector } from '@/redux/hooks';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import Flag from 'react-world-flags';
@@ -19,25 +18,27 @@ const InfoRow = ({ label, value, className }: InfoRowProps) => {
   return (
     <div
       className={cn(
-        'border-border bg-secondary flex flex-col border text-xs sm:grid sm:grid-cols-2 lg:text-sm',
+        'border-border bg-secondary flex w-full items-stretch border text-xs lg:text-sm',
         className
       )}
     >
-      <div className="text-muted-foreground border-border flex items-center border-b px-4 py-3 sm:border-r sm:border-b-0">
+      {/* Label Section - Fixed width or 50% split */}
+      <div className="text-muted-foreground border-border flex w-1/2 items-center border-r px-4 py-3 font-medium tracking-wide uppercase">
         {label}
       </div>
-      <div className="flex items-center px-4 py-3 font-medium text-white">
+      {/* Value Section */}
+      <div className="flex w-1/2 items-center justify-end px-4 py-3 text-right font-bold text-white">
         {value}
       </div>
     </div>
   );
 };
 
-interface TournamentCardProps {
+interface TournamentInfoCardProps {
   tournament: Tournament;
 }
 
-export const TournamentCard = ({ tournament }: TournamentCardProps) => {
+export const TournamentInfoCard = ({ tournament }: TournamentInfoCardProps) => {
   // Configuration for dynamic rows
   const rowsConfig: {
     label: string;
@@ -48,13 +49,13 @@ export const TournamentCard = ({ tournament }: TournamentCardProps) => {
       label: 'Country',
       key: 'country',
       render: (values: string[]) => (
-        <div className="flex items-center gap-2">
+        <div className="flex items-center justify-end gap-2">
           {values.map((code) => {
             if (code === 'Global') {
               return (
                 <Globe
                   key={code}
-                  className="h-5 w-5 text-blue-400"
+                  className="text-primary h-5 w-5"
                   aria-label="Global"
                 />
               );
@@ -62,7 +63,7 @@ export const TournamentCard = ({ tournament }: TournamentCardProps) => {
             return (
               <div
                 key={code}
-                className="relative h-5 w-7 overflow-hidden rounded-[2px]"
+                className="relative h-5 w-7 shrink-0 overflow-hidden rounded-[2px]"
                 title={code}
               >
                 <Flag code={code} height="20" />
@@ -81,33 +82,33 @@ export const TournamentCard = ({ tournament }: TournamentCardProps) => {
   ];
 
   return (
-    <div className="relative grid w-full grid-cols-1 gap-6 @[1520px]:grid-cols-2">
-      {/* Desktop Image - Side by side (hidden on mobile) */}
-      <div className="relative hidden @[1520px]:block">
-        <Image
-          src="/assets/images/TournamentBanner.png"
-          width={800}
-          height={490}
-          alt={tournament.title}
-          className="border-border aspect-video h-full max-h-[490px] w-full rounded-[2px] border"
-        />
+    <div className="border-border bg-card mx-auto flex flex-col overflow-hidden border-2 lg:gap-6 lg:overflow-hidden @7xl:flex-row @7xl:border-0 @7xl:bg-transparent ">
+      {/* Banner / Image Section */}
+      <div className="">
+        {tournament.bannerImage ? (
+          <Image
+            src={tournament.bannerImage}
+            alt={tournament.title}
+            width={600}
+            height={600}
+            className="border-border aspect-video h-full w-full border-b-2 object-cover @7xl:h-max @7xl:border-2"
+            priority
+          />
+        ) : (
+          <div className="bg-muted flex h-full items-center justify-center">
+            <span className="text-muted-foreground">No Image Available</span>
+          </div>
+        )}
       </div>
 
-      {/* Info Card - Contains mobile image inside */}
-      <div className="border-border bg-card flex w-full flex-col gap-4 rounded-[2px] border-2 p-4 @[1520px]:h-min">
-        {/* Mobile Image (hidden on desktop) */}
-        <div className="block w-full @[1520px]:hidden">
-          <Image
-            src="/assets/images/TournamentBanner.png"
-            width={800}
-            height={400}
-            alt={tournament.title}
-            className="h-auto w-full rounded-[2px] object-cover"
-          />
-        </div>
+      {/* Info Content Section */}
+      <div className="bg-card @7xl:border-border w-full max-w-[750px] p-4 @7xl:border-2">
+        <h2 className="font-khand type-xl mb-4 font-bold tracking-wide text-white uppercase">
+          {tournament.title}
+        </h2>
 
         {/* Info Rows */}
-        <div className="flex flex-1 flex-col gap-[10px]">
+        <div className="flex flex-1 flex-col gap-3">
           {rowsConfig.map((row) => {
             const value = tournament[row.key];
             return (
@@ -122,11 +123,11 @@ export const TournamentCard = ({ tournament }: TournamentCardProps) => {
           })}
         </div>
 
-        {/* Button always at bottom */}
-        <div className="mt-auto pt-4">
+        {/* Action Button */}
+        <div className="mt-4 pt-2">
           <Button
-            variant="outline"
-            className="border-primary text-primary hover:bg-primary hover:text-foreground h-12 w-full border text-sm font-normal tracking-wide uppercase transition-all"
+            className="h-12 w-full text-base font-bold tracking-wider uppercase transition-all hover:scale-[1.01] active:scale-[0.99]"
+            size="lg"
             asChild
           >
             <Link href={`/tournaments/register/${tournament.id}`}>
@@ -134,21 +135,6 @@ export const TournamentCard = ({ tournament }: TournamentCardProps) => {
             </Link>
           </Button>
         </div>
-      </div>
-    </div>
-  );
-};
-
-// Wrapper component to display the list
-export const TournamentList = () => {
-  const { filteredTournaments } = useAppSelector((state) => state.tournaments);
-
-  return (
-    <div className="@container">
-      <div className="grid grid-cols-1 gap-6 @[764px]:grid-cols-2 @[1520px]:grid-cols-1">
-        {filteredTournaments.map((tournament) => (
-          <TournamentCard key={tournament.id} tournament={tournament} />
-        ))}
       </div>
     </div>
   );

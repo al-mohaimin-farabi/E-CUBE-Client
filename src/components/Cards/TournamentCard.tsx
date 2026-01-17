@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { Trophy } from 'lucide-react';
 import type { Tournament } from '@/redux/features/tournaments/tournamentSlice';
 import { cn } from '@/lib/utils';
@@ -109,8 +110,8 @@ const TournamentCard = ({ tournament, className }: TournamentCardProps) => {
               {tournament.eventStart.split('•')[0].trim()}
             </span>
           </div>
-          <Button variant="outline" size="sm">
-            Join Now
+          <Button variant="outline" size="sm" asChild>
+            <Link href={`/tournaments/${tournament.id}`}>Join Now</Link>
           </Button>
         </div>
       </div>
