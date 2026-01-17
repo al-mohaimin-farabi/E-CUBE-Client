@@ -9,31 +9,12 @@ import { MultiStepTeamRegistration } from '@/components/forms/MultiStepTeamRegis
 import type { Tournament } from '@/redux/features/tournaments/tournamentSlice';
 
 interface TournamentRegisterClientProps {
-  tournamentId: string;
+  tournament: Tournament;
 }
 
 export const TournamentRegisterClient = ({
-  tournamentId,
+  tournament,
 }: TournamentRegisterClientProps) => {
-  const router = useRouter();
-  const { allTournaments } = useAppSelector((state) => state.tournaments);
-
-  // Find tournament for display (if valid)
-  const tournament: Tournament | undefined = allTournaments.find(
-    (t: Tournament) => t.id === tournamentId
-  );
-
-  useEffect(() => {
-    // Validate tournament ID in background - redirect if invalid
-    const isValid = allTournaments.some(
-      (t: Tournament) => t.id === tournamentId
-    );
-
-    if (!isValid) {
-      router.replace('/tournaments');
-    }
-  }, [tournamentId, allTournaments, router]);
-
   return (
     <main>
       <PageHeader
@@ -47,7 +28,7 @@ export const TournamentRegisterClient = ({
       <div className="layout-padding container mx-auto grid grid-cols-1 gap-6 lg:grid-cols-2">
         {/* Form Section */}
         <div className="min-w-0 overflow-hidden">
-          <MultiStepTeamRegistration tournamentId={tournamentId} />
+          <MultiStepTeamRegistration tournamentId={tournament.id} />
         </div>
 
         {/* Info Section */}

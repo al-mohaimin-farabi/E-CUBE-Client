@@ -89,8 +89,8 @@ export const TournamentInfoCard = ({ tournament }: TournamentInfoCardProps) => {
           <Image
             src={tournament.bannerImage}
             alt={tournament.title}
-            width={600}
-            height={600}
+            width={521}
+            height={291}
             className="border-border aspect-video h-full w-full border-b-2 object-cover @7xl:h-max @7xl:border-2"
             priority
           />

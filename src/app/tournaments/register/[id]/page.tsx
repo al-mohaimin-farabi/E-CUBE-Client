@@ -43,8 +43,18 @@ const TournamentRegisterPage = async ({
   params,
 }: TournamentRegisterPageProps) => {
   const { id } = await params;
+  const tournaments = await getTournaments();
+  const tournament = tournaments.find((t) => t.id === id);
 
-  return <TournamentRegisterClient tournamentId={id} />;
+  if (!tournament) {
+    return (
+      <div className="flex min-h-[50vh] items-center justify-center">
+        <h1 className="text-2xl font-bold">Tournament Not Found</h1>
+      </div>
+    );
+  }
+
+  return <TournamentRegisterClient tournament={tournament} />;
 };
 
 export default TournamentRegisterPage;

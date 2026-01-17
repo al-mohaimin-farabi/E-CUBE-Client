@@ -1,5 +1,6 @@
 import { TournamentInfoCard } from '@/components/pages/tournaments/TournamentInfoCard';
 import { getTournaments } from '@/lib/data';
+import { TournamentTabs } from '@/components/pages/tournaments/TournamentTabs';
 import PageHeader from '@/components/common/PageHeader';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
@@ -65,7 +66,12 @@ export default async function TournamentDetailPage({
         }}
       />
 
-      <SectionWrapper narrowy className="@container mt-6 flex justify-center ">
+      <div className="container mx-auto mt-8 mb-6">
+        <TournamentTabs />
+      </div>
+
+      <SectionWrapper narrowy className="@container mt-6 flex justify-center">
+        {/* this is defulat overview */}
         <TournamentInfoCard tournament={tournament} />
       </SectionWrapper>
     </main>
