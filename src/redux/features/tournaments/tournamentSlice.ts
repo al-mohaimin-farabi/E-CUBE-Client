@@ -328,63 +328,82 @@ const tournamentSlice = createSlice({
 
       // 1. Region Filter
       if (
-        state.filters.region !== 'Region' &&
-        state.filters.region !== 'Global' &&
-        state.filters.region !== 'All'
+        state.filters.region &&
+        state.filters.region.toLowerCase() !== 'region' &&
+        state.filters.region.toLowerCase() !== 'global' &&
+        state.filters.region.toLowerCase() !== 'all'
       ) {
         // Simple logic map:
         const regionMap: Record<string, string[]> = {
-          'North America': ['US', 'CA', 'MX'],
-          Europe: ['EU', 'UK', 'DE', 'FR'],
-          Asia: ['BD', 'IN', 'NP', 'CN', 'KR', 'JP', 'ID', 'PH', 'MY'],
+          'north america': ['US', 'CA', 'MX'],
+          europe: ['EU', 'UK', 'DE', 'FR'],
+          asia: ['BD', 'IN', 'NP', 'CN', 'KR', 'JP', 'ID', 'PH', 'MY'],
+          'south america': ['BR', 'AR', 'PE', 'CL'],
         };
-        const targetCodes = regionMap[state.filters.region] || [];
+        const targetCodes = regionMap[state.filters.region.toLowerCase()] || [];
         if (targetCodes.length > 0) {
           result = result.filter((t) =>
             t.country.some((c) => targetCodes.includes(c))
           );
         }
-      } else if (state.filters.region === 'Global') {
-        // Show Global Only
-        result = result.filter((t) => t.country.includes('Global'));
       }
 
       // 2. Game Filter
-      if (state.filters.game !== 'Game' && state.filters.game !== 'All') {
-        result = result.filter((t) => t.game === state.filters.game);
+      if (
+        state.filters.game &&
+        state.filters.game.toLowerCase() !== 'game' &&
+        state.filters.game.toLowerCase() !== 'all' &&
+        state.filters.game.toLowerCase() !== 'all games'
+      ) {
+        result = result.filter(
+          (t) => t.game?.toLowerCase() === state.filters.game.toLowerCase()
+        );
       }
 
       // 3. Platform Filter
       if (
-        state.filters.platform !== 'Platform' &&
-        state.filters.platform !== 'All'
+        state.filters.platform &&
+        state.filters.platform.toLowerCase() !== 'platform' &&
+        state.filters.platform.toLowerCase() !== 'all'
       ) {
-        result = result.filter((t) => t.platform === state.filters.platform);
+        result = result.filter(
+          (t) =>
+            t.platform?.toLowerCase() === state.filters.platform.toLowerCase()
+        );
       }
 
       // 4. Mode Filter
       if (
-        state.filters.mode !== 'Mode' &&
-        state.filters.mode !== 'All' &&
-        state.filters.mode !== 'All Modes'
+        state.filters.mode &&
+        state.filters.mode.toLowerCase() !== 'mode' &&
+        state.filters.mode.toLowerCase() !== 'all' &&
+        state.filters.mode.toLowerCase() !== 'all modes'
       ) {
-        result = result.filter((t) => t.mode === state.filters.mode);
+        result = result.filter(
+          (t) => t.mode?.toLowerCase() === state.filters.mode.toLowerCase()
+        );
       }
 
       // 5. Sort Filter (using Event Start Date)
-      if (state.filters.sortBy === 'Newest') {
+      const sortVal = state.filters.sortBy?.toLowerCase();
+      if (sortVal === 'newest') {
         result.sort(
           (a, b) =>
             new Date(b.eventStart).getTime() - new Date(a.eventStart).getTime()
         );
-      } else if (state.filters.sortBy === 'Oldest') {
+      } else if (sortVal === 'oldest') {
         result.sort(
           (a, b) =>
             new Date(a.eventStart).getTime() - new Date(b.eventStart).getTime()
         );
-      } else if (state.filters.sortBy === 'Prize Pool') {
-        // Data doesn't have prize pool field in interface yet!
-        // We can't sort by prize pool.
+      } else if (sortVal === 'prize pool') {
+        // Data doesn't have prize pool field in interface properly formatted for sort yet
+        // But let's try a basic sort if string allows
+        result.sort((a, b) => {
+          const poolA = parseInt(a.prizePool?.replace(/[^0-9]/g, '') || '0');
+          const poolB = parseInt(b.prizePool?.replace(/[^0-9]/g, '') || '0');
+          return poolB - poolA;
+        });
       }
 
       state.filteredTournaments = result;

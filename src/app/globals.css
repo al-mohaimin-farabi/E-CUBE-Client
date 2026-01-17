@@ -34,6 +34,7 @@
   --color-secondary: var(--secondary);
   --color-primary-foreground: var(--primary-foreground);
   --color-primary: var(--primary);
+  --color-primary-dark: var(--primary-dark);
   --color-popover-foreground: var(--popover-foreground);
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
@@ -53,6 +54,7 @@
   --palette-text-secondary: #7a8c9c; /* --color-muted-foreground */
 
   --palette-primary-btn: #1895fc; /* --color-primary, --color-ring */
+  --palette-primary-dark: #1D357F; /* --color-primary-dark, --color-ring */
   --palette-secondary-btn: #111518; /* --color-secondary, --color-muted */
 
   --palette-icon-orange: #ed9c00;
@@ -71,7 +73,8 @@
   --popover-foreground: var(--palette-text-primary);
 
   /* Primary Brand */
-  --primary: var(--palette-primary-btn);
+  --primary: var(--palette-primary-btn); 
+  --primary-dark: var(--palette-primary-dark); 
   --primary-foreground: var(--palette-text-primary);
 
   /* Secondary / Muted */

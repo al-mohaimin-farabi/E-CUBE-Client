@@ -3,11 +3,13 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { footerSections, footerCTA, socialLinks } from '@/config/footer';
 import { FaDiscord } from 'react-icons/fa';
+import WhoAreWe from '../pages/tournaments/WhoAreWe';
 
 const Footer = () => {
   return (
     <footer className="pt-16">
       {/* Discord Banner */}
+      <WhoAreWe />
       <div className="layout-padding flex min-h-[50px] items-center justify-center bg-[#5865F2] py-3! text-white sm:py-3!">
         <div className="flex flex-wrap items-center justify-center gap-4 text-center">
           <div className="flex items-center gap-2">

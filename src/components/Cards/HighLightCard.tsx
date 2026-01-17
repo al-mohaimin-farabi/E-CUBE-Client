@@ -39,7 +39,7 @@ const HighLightCard = ({
           <h4
             className={`bg-clip-text text-transparent ${
               variant === 'blue'
-                ? 'from-primary bg-linear-to-t to-[#20E3FF]'
+                ? 'from-primary to-primary-dark bg-linear-to-b'
                 : 'bg-linear-to-t from-[#11ED41] to-[#61FF8D]'
             }`}
           >

@@ -44,7 +44,7 @@ const TournamentCard = ({ tournament, className }: TournamentCardProps) => {
         </div>
 
         {/* Prize Pool Overlay */}
-        <div className="absolute right-0 bottom-0 left-0 flex items-center gap-2 bg-linear-to-r from-black/40 from-50% to-transparent px-4 py-1">
+        <div className="absolute right-0 bottom-0 left-0 flex items-center gap-2 bg-linear-to-r from-primary/40  to-transparent px-4 py-1">
           <Trophy className="size-5 text-[#ed9c00]" />
           <span className="text-lg font-bold text-white">
             {tournament.prizePool}

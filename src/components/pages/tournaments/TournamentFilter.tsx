@@ -34,8 +34,8 @@ const FilterDropdown = ({
     <DropdownMenuTrigger asChild>
       <button
         className={cn(
-          'group hover:bg-border relative flex h-full flex-1 cursor-pointer flex-col justify-center px-4 transition-colors focus:outline-none md:px-6',
-          !lastItem && 'border-border border-r'
+          'group hover:bg-border relative flex h-full flex-1 cursor-pointer flex-col justify-center px-4 py-3 transition-colors focus:outline-none md:px-6 md:py-0',
+          !lastItem && 'border-border border-b md:border-r md:border-b-0'
         )}
       >
         <div className="flex w-full items-center justify-between">
@@ -104,14 +104,20 @@ export const TournamentFilter = () => {
   const handleApply = () => {
     dispatch(
       setFilters({
-        region: region === 'Global' ? 'All' : region, // Normalize if needed
-        game: game === 'All Games' ? 'All' : game,
-        mode: mode === 'All Modes' ? 'All' : mode,
+        region: (region === 'Global' ? 'All' : region).toLowerCase(),
+        game: (game === 'All Games' ? 'All' : game).toLowerCase(),
+        mode: (mode === 'All Modes' ? 'All' : mode).toLowerCase(),
         sortBy: sortBy.toLowerCase(),
       })
     );
     // You handle other filters (game, status, mode) similarly in Redux if supported
-    console.log('Filters Applied:', { game, time, region, mode, sortBy });
+    console.log('Filters Applied:', {
+      game: game.toLowerCase(),
+      time: time.toLowerCase(),
+      region: region.toLowerCase(),
+      mode: mode.toLowerCase(),
+      sortBy: sortBy.toLowerCase(),
+    });
 
     // Close on mobile after apply
     setIsExpanded(false);
@@ -123,74 +129,83 @@ export const TournamentFilter = () => {
       <div className="mb-2 w-full md:hidden">
         <Button
           onClick={() => setIsExpanded(!isExpanded)}
-          className="bg-primary hover:bg-primary/90 h-12 w-full font-bold tracking-wider text-white uppercase"
+          className="h-12 w-full"
         >
           {isExpanded ? 'Hide Filters' : 'Filter Games'}
         </Button>
       </div>
-
-      {/* Filter Container */}
       <div
         className={cn(
-          'border-border overflow-hidden rounded border bg-[#14181f]/90 backdrop-blur-sm transition-all duration-300 ease-in-out',
-          // Desktop styles
-          'md:flex md:h-14 md:flex-row md:items-stretch md:overflow-visible',
-          // Mobile styles
+          'h-full w-full md:flex transition-all duration-300 ease-in-out',
           isExpanded
-            ? 'flex h-auto flex-col opacity-100'
-            : 'hidden h-0 opacity-0 md:flex md:h-14 md:opacity-100'
+            ? 'max-h-[500px] opacity-100'
+            : 'max-h-0 opacity-0 md:max-h-none md:opacity-100'
         )}
       >
-        {/* Game Filter */}
-        <FilterDropdown
-          label="Game"
-          value={game}
-          options={gameOptions}
-          onChange={setGame}
-        />
+        {/* Filter Container */}
+        <div
+          className={cn(
+            'border-border bg-background/60 w-full rounded-b-none! md:rounded-b! overflow-hidden rounded md:rounded-r-none border md:border-r-0 backdrop-blur-sm',
+            // Desktop styles
+            'md:flex md:h-14 md:flex-row md:items-stretch md:overflow-visible',
+            // Mobile styles with max-height transition
+            'flex flex-col'
+          )}
+        >
+          {/* Game Filter */}
+          <FilterDropdown
+            label="Game"
+            value={game}
+            options={gameOptions}
+            onChange={setGame}
+          />
 
-        {/* Date/Time Filter */}
-        <FilterDropdown
-          label="Date"
-          value={time}
-          options={timeOptions}
-          onChange={setTime}
-        />
+          {/* Date/Time Filter */}
+          <FilterDropdown
+            label="Date"
+            value={time}
+            options={timeOptions}
+            onChange={setTime}
+          />
 
-        {/* Region Filter */}
-        <FilterDropdown
-          label="Region"
-          value={region}
-          options={regionOptions}
-          onChange={setRegion}
-        />
+          {/* Region Filter */}
+          <FilterDropdown
+            label="Region"
+            value={region}
+            options={regionOptions}
+            onChange={setRegion}
+          />
 
-        {/* Mode Filter */}
-        <FilterDropdown
-          label="Mode"
-          value={mode}
-          options={modeOptions}
-          onChange={setMode}
-        />
+          {/* Mode Filter */}
+          <FilterDropdown
+            label="Mode"
+            value={mode}
+            options={modeOptions}
+            onChange={setMode}
+          />
 
-        {/* Sort Filter */}
-        <FilterDropdown
-          label="Sorted by"
-          value={sortBy}
-          options={sortOptions}
-          onChange={setSortBy}
-          lastItem
-        />
-
-        {/* Filter Button */}
-        <div className="flex w-full items-center p-2 md:w-auto md:p-0">
-          <Button
-            onClick={handleApply}
-            className="bg-primary hover:bg-primary/90 h-10 w-full rounded px-10 text-base font-bold tracking-wider text-white uppercase shadow-none transition-all active:scale-[0.98] md:h-full md:rounded-l-none md:rounded-r"
-          >
-            Filter
-          </Button>
+          {/* Sort Filter */}
+          <FilterDropdown
+            label="Sorted by"
+            value={sortBy}
+            options={sortOptions}
+            onChange={setSortBy}
+            lastItem
+          />
         </div>
+        {/* Filter Button */}
+        {/* <Button
+          onClick={handleApply}
+          className="bg-primary hover:bg-primary/90 m-2 hidden h-12 w-[calc(100%-1rem)] rounded px-10 text-base font-bold tracking-wider text-white uppercase shadow-none transition-all active:scale-[0.98] md:m-0 md:block md:h-14 md:w-auto md:rounded-l-none md:rounded-r"
+        >
+          Filter
+        </Button> */}
+        <Button
+          onClick={handleApply}
+          className="h-12 w-full rounded rounded-t-none! md:h-14 md:w-[120px]! md:rounded-l-none! md:rounded-r!"
+        >
+          Filter
+        </Button>
       </div>
     </div>
   );

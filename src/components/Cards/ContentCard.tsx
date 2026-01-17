@@ -49,18 +49,10 @@ const ContentCard = ({
       )}
 
       {/* Platform Badge */}
-      <div className="pointer-events-none absolute bottom-3 right-3 z-20">
+      <div className="pointer-events-none absolute right-3 bottom-3 z-20">
         <PlatformBadge platform={platform} />
       </div>
-      <div className="absolute top-0 left-0 right-0 h-[60px] bg-black/50"></div>
 
-      {/* Gradient Overlay for Text Readability - Only show if not video, or maybe always? 
-          If video is playing, we probably don't want a gradient obscuring it. 
-          But for "card" consistency, maybe we do. 
-          User said "instead of the images", implying the video *is* the content. 
-          Usually video embeds have their own controls. 
-          I will hide the gradient/text overlay if video is present, as it would block controls.
-       */}
       {!video && (
         <>
           <div className="absolute inset-x-0 bottom-0 h-2/3 bg-linear-to-t from-black/90 via-black/50 to-transparent" />
