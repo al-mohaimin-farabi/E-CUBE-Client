@@ -25,8 +25,9 @@ const TournamentCard = ({ tournament, className }: TournamentCardProps) => {
           <Image
             src={tournament.bannerImage}
             alt={tournament.title}
-            fill
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            width={365}
+            height={190}
+            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
         ) : (
           <div className="bg-muted h-full w-full" />
@@ -44,7 +45,7 @@ const TournamentCard = ({ tournament, className }: TournamentCardProps) => {
         </div>
 
         {/* Prize Pool Overlay */}
-        <div className="absolute right-0 bottom-0 left-0 flex items-center gap-2 bg-linear-to-r from-primary/40  to-transparent px-4 py-1">
+        <div className="from-primary/40 absolute right-0 bottom-0 left-0 flex items-center gap-2 bg-linear-to-r to-transparent px-4 py-1">
           <Trophy className="size-5 text-[#ed9c00]" />
           <span className="text-lg font-bold text-white">
             {tournament.prizePool}
@@ -116,5 +117,66 @@ const TournamentCard = ({ tournament, className }: TournamentCardProps) => {
     </div>
   );
 };
-
 export default TournamentCard;
+
+export const TournamentCardSkeleton = () => {
+  return (
+    <div className="bg-card border-border/50 group @container relative flex w-full flex-col overflow-hidden rounded-md border shadow-sm">
+      {/* Banner Skeleton */}
+      <div className="relative h-48 w-full shrink-0 overflow-hidden">
+        <div className="bg-muted h-full w-full animate-pulse" />
+
+        {/* Badges Skeleton */}
+        <div className="absolute top-3 right-3 flex gap-2">
+          <div className="bg-muted/50 h-5 w-16 animate-pulse rounded-md" />
+          <div className="bg-muted/50 h-5 w-16 animate-pulse rounded-md" />
+        </div>
+
+        {/* Prize Pool Overlay Skeleton */}
+        <div className="absolute right-0 bottom-0 left-0 flex items-center gap-2 px-4 py-1">
+          <div className="bg-muted/50 size-5 animate-pulse rounded-full" />
+          <div className="bg-muted/50 h-5 w-20 animate-pulse rounded-md" />
+        </div>
+      </div>
+
+      {/* Content Skeleton */}
+      <div className="flex flex-1 flex-col space-y-4 p-3 @[300px]:p-4">
+        {/* Title */}
+        <div className="bg-muted h-7 w-3/4 animate-pulse rounded-md" />
+
+        {/* Stats Grid */}
+        <div className="border-border grid grid-cols-2 gap-2 border-b pb-4 text-center @[350px]:grid-cols-4">
+          {/* Entry */}
+          <div className="flex flex-col items-start gap-1">
+            <div className="bg-muted h-3 w-8 animate-pulse rounded-sm" />
+            <div className="bg-muted h-4 w-12 animate-pulse rounded-sm" />
+          </div>
+          {/* Mode */}
+          <div className="flex flex-col items-end gap-1 @[350px]:items-start">
+            <div className="bg-muted h-3 w-8 animate-pulse rounded-sm" />
+            <div className="bg-muted h-4 w-12 animate-pulse rounded-sm" />
+          </div>
+          {/* Region */}
+          <div className="flex flex-col items-start gap-1">
+            <div className="bg-muted h-3 w-10 animate-pulse rounded-sm" />
+            <div className="bg-muted h-4 w-16 animate-pulse rounded-sm" />
+          </div>
+          {/* Slots */}
+          <div className="flex flex-col items-end gap-1 @[350px]:items-start">
+            <div className="bg-muted h-3 w-8 animate-pulse rounded-sm" />
+            <div className="bg-muted h-4 w-10 animate-pulse rounded-sm" />
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div className="flex items-center justify-between pt-1">
+          <div className="flex flex-col gap-1">
+            <div className="bg-muted h-3 w-12 animate-pulse rounded-sm" />
+            <div className="bg-muted h-4 w-20 animate-pulse rounded-sm" />
+          </div>
+          <div className="bg-muted h-9 w-24 animate-pulse rounded-md" />
+        </div>
+      </div>
+    </div>
+  );
+};

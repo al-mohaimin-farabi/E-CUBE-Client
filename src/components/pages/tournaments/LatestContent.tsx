@@ -1,27 +1,31 @@
 'use client';
 
-import { useAppSelector } from '@/redux/hooks';
 import SectionTitle from '@/components/common/SectionTitle';
 import SectionWrapper from '@/components/layout/SectionWrapper';
-import ContentCard from '@/components/Cards/ContentCard';
+import ContentCard, {
+  ContentCardSkeleton,
+} from '@/components/Cards/ContentCard';
+import { useGetContentsQuery } from '@/redux/features/tournaments/tournamentApi';
 
 const LatestContent = () => {
-  const { allContents } = useAppSelector((state) => state.contents);
+  const { data: contents = [], isLoading } = useGetContentsQuery();
 
   return (
     <SectionWrapper compact>
       <SectionTitle href="/contents" title="Watch Latest Contents" />
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:gap-6">
-        {allContents.map((content) => (
-          <ContentCard
-            key={content.id}
-            title={content.title}
-            imageSrc={content.image}
-            platform={content.platform}
-            video={content.video}
-          />
-        ))}
+        {isLoading
+          ? [...Array(3)].map((_, i) => <ContentCardSkeleton key={i} />)
+          : contents.map((content) => (
+              <ContentCard
+                key={content.id}
+                title={content.title}
+                imageSrc={content.image}
+                platform={content.platform}
+                video={content.video}
+              />
+            ))}
       </div>
     </SectionWrapper>
   );

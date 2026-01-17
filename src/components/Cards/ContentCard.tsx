@@ -66,5 +66,18 @@ const ContentCard = ({
     </div>
   );
 };
-
 export default ContentCard;
+
+export const ContentCardSkeleton = () => {
+  return (
+    <div className="border-border relative aspect-video w-full overflow-hidden rounded-md border">
+      <div className="bg-muted h-full w-full animate-pulse" />
+
+      {/* Title lines at bottom */}
+      <div className="absolute right-0 bottom-0 left-0 space-y-2 p-4">
+        <div className="bg-muted/50 h-4 w-full animate-pulse rounded-sm" />
+        <div className="bg-muted/50 h-4 w-2/3 animate-pulse rounded-sm" />
+      </div>
+    </div>
+  );
+};

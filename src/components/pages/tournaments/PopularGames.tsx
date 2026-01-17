@@ -1,26 +1,25 @@
 'use client';
 
-import { useAppSelector } from '@/redux/hooks';
-import GameCard from '@/components/Cards/GameCard';
+import GameCard, { GameCardSkeleton } from '@/components/Cards/GameCard';
 import SectionTitle from '@/components/common/SectionTitle';
 import SectionWrapper from '@/components/layout/SectionWrapper';
+import { useGetGamesQuery } from '@/redux/features/tournaments/tournamentApi';
 
 const PopularGames = () => {
-  const { allGames } = useAppSelector((state) => state.games);
+  const { data: games = [], isLoading } = useGetGamesQuery();
 
-  // Taking first 5 games to match the "Popular" section style
-  // In a real app, you might sort by popularity or tournament count before slicing
-  const featuredGames = allGames.slice(0, 5);
+  // Taking first 5 games
+  const featuredGames = games.slice(0, 5);
 
   return (
     <SectionWrapper compact className="@container">
       <SectionTitle href="/games" title="Popular Games" />
 
       {/* Grid Layout: Adapted for 5 items */}
-      <div className="grid grid-cols-1 gap-4 @7xl:gap-6 @[450px]:grid-cols-2 @2xl:grid-cols-3 @6xl:grid-cols-5">
-        {featuredGames.map((game) => (
-          <GameCard key={game.id} game={game} />
-        ))}
+      <div className="grid grid-cols-1 gap-4 @[450px]:grid-cols-2 @2xl:grid-cols-3 @6xl:grid-cols-5 @7xl:gap-6">
+        {isLoading
+          ? [...Array(5)].map((_, i) => <GameCardSkeleton key={i} />)
+          : featuredGames.map((game) => <GameCard key={game.id} game={game} />)}
       </div>
     </SectionWrapper>
   );

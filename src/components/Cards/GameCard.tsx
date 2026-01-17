@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
-import type { Game } from '@/redux/features/games/gamesSlice';
+import type { Game } from '@/lib/data';
 import PlatformBadge from '@/components/badges/PlatformBadge';
 
 interface GameCardProps {
@@ -46,5 +46,29 @@ const GameCard = ({ game, className }: GameCardProps) => {
     </div>
   );
 };
-
 export default GameCard;
+
+export const GameCardSkeleton = () => {
+  return (
+    <div className="bg-card border-border relative aspect-3/2 h-[400px] w-full overflow-hidden rounded-md border shadow-sm">
+      {/* Background with standard muted color */}
+      <div className="bg-muted h-full w-full animate-pulse" />
+
+      {/* Dark Gradient Overlay to match real card's contrast */}
+      <div className="absolute inset-0 bg-linear-to-t from-black/80 via-transparent to-transparent" />
+
+      {/* Platform Badge Skeleton */}
+      <div className="absolute top-3 right-3">
+        <div className="bg-muted/50 h-6 w-16 animate-pulse rounded-full" />
+      </div>
+
+      {/* Content Skeleton */}
+      <div className="absolute right-0 bottom-0 left-0 flex flex-col items-center gap-2 p-4">
+        {/* Title Line */}
+        <div className="bg-muted/80 h-7 w-3/4 animate-pulse rounded-md" />
+        {/* Subtitle Line */}
+        <div className="bg-muted/60 h-4 w-1/3 animate-pulse rounded-md" />
+      </div>
+    </div>
+  );
+};
