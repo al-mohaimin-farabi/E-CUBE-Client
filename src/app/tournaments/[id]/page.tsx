@@ -1,10 +1,8 @@
-import { TournamentInfoCard } from '@/components/pages/tournaments/TournamentInfoCard';
 import { getTournaments } from '@/lib/data';
-import { TournamentTabs } from '@/components/pages/tournaments/TournamentTabs';
+import { TournamentDetailView } from '@/components/pages/tournaments/TournamentDetailView';
 import PageHeader from '@/components/common/PageHeader';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
-import SectionWrapper from '@/components/layout/SectionWrapper';
 
 interface TournamentDetailPageProps {
   params: Promise<{ id: string }>;
@@ -66,14 +64,7 @@ export default async function TournamentDetailPage({
         }}
       />
 
-      <div className="container mx-auto mt-8 mb-6">
-        <TournamentTabs />
-      </div>
-
-      <SectionWrapper narrowy className="@container mt-6 flex justify-center">
-        {/* this is defulat overview */}
-        <TournamentInfoCard tournament={tournament} />
-      </SectionWrapper>
+      <TournamentDetailView tournament={tournament} />
     </main>
   );
 }
