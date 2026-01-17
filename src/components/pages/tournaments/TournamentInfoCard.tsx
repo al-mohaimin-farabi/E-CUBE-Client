@@ -89,7 +89,7 @@ export const TournamentCard = ({ tournament }: TournamentCardProps) => {
           width={800}
           height={490}
           alt={tournament.title}
-          className="border-border max-h-[490px] h-full aspect-video w-full rounded-[2px] border"
+          className="border-border aspect-video h-full max-h-[490px] w-full rounded-[2px] border"
         />
       </div>
 

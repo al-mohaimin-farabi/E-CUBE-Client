@@ -4,6 +4,14 @@ import HighLightCardSection from '@/components/pages/tournaments/HighLightCardSe
 import LatestContent from '@/components/pages/tournaments/LatestContent';
 import PopularGames from '@/components/pages/tournaments/PopularGames';
 
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'All Tournaments | E-CUBE Esports',
+  description:
+    'Browse and join the latest mock tournaments across Valorant, CS:GO, and more.',
+};
+
 export default function TournamentsPage() {
   return (
     <>
