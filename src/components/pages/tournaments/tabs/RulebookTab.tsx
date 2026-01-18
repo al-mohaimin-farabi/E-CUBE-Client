@@ -14,7 +14,7 @@ export const RulebookTab = ({ tournament }: RulebookTabProps) => {
   const fileName = 'Tournament_Rulebook.pdf';
 
   return (
-    <div className="flex w-full flex-col items-center justify-center py-10">
+    <div className="flex w-full flex-col items-center justify-center ">
       <div className="w-full max-w-md space-y-6">
         <h3 className="type-sm text-muted-foreground font-medium">Rulebook</h3>
 

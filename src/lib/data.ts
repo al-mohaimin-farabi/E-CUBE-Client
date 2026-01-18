@@ -514,3 +514,39 @@ export async function getContents() {
 
   return MOCK_CONTENTS;
 }
+
+export interface TeamMember {
+  name: string;
+  avatar?: string;
+  role?: string;
+  isCaptain?: boolean;
+}
+
+export interface Team {
+  id: string;
+  name: string;
+  logo: string;
+  country: string; // ISO code
+  group: string;
+  members: TeamMember[];
+}
+
+export const MOCK_TEAMS: Team[] = Array.from({ length: 16 }).map((_, i) => ({
+  id: `team-${i + 1}`,
+  name: 'ANGULAR ESPORTS',
+  logo: '/assets/logo.svg',
+  country: ['BD', 'IN', 'NP', 'PK'][i % 4], // Cycling flags
+  group: 'GROUP A',
+  members: [
+    { name: 'ANESxANIM', isCaptain: true },
+    { name: 'ANESxINFECTED' },
+    { name: 'ANESxTHEMIS' },
+    { name: 'ANESxDARK' },
+    { name: 'ANESxANIK' },
+    { name: 'ANESxSALMOON' }, // Optional 6th
+  ],
+}));
+
+export async function getParticipatedTeams() {
+  return MOCK_TEAMS;
+}

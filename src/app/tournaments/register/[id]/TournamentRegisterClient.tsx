@@ -25,7 +25,7 @@ export const TournamentRegisterClient = ({
         titleOnly
         image="/assets/images/registerbg.png"
       />
-      <div className="layout-padding container mx-auto grid grid-cols-1 gap-6 lg:grid-cols-2">
+      <div className="container mt-10 mb-6 mx-auto grid grid-cols-1 gap-6 lg:grid-cols-2">
         {/* Form Section */}
         <div className="min-w-0 overflow-hidden">
           <MultiStepTeamRegistration tournamentId={tournament.id} />

@@ -14,6 +14,9 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  experimental: {
+    optimizePackageImports: ['lucide-react', 'react-icons', '@xyflow/react'],
+  },
   reactCompiler: true,
 };
 

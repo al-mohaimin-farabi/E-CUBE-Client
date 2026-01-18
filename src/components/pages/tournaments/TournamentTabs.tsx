@@ -31,7 +31,7 @@ export const TournamentTabs = ({
       <div className="md:hidden">
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
-          className="border-border bg-background/60 flex w-full items-center justify-between rounded border px-4 py-3 backdrop-blur-sm"
+          className="border-border bg-card flex w-full items-center justify-between rounded border px-4 py-3 backdrop-blur-sm"
         >
           <span className="text-sm font-bold tracking-wide text-white uppercase">
             {activeTab}
@@ -79,9 +79,9 @@ export const TournamentTabs = ({
               key={tab}
               onClick={() => setActiveTab(tab)}
               className={cn(
-                'group hover:bg-border/40 relative flex h-14 flex-1 cursor-pointer items-center justify-center px-6 transition-colors focus:outline-none',
+                'group bg-card/40 backdrop-blur-md hover:bg-border/40 relative flex h-14 flex-1 cursor-pointer items-center justify-center px-6 transition-colors focus:outline-none',
                 !isLast && 'border-border border-r',
-                isActive && 'bg-white/5'
+                isActive && 'bg-card'
               )}
             >
               <span

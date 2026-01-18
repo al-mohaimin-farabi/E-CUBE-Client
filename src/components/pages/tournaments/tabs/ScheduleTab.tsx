@@ -47,7 +47,7 @@ export const ScheduleTab = ({ tournament }: ScheduleTabProps) => {
   ];
 
   return (
-    <div className="w-full py-4">
+    <div className="w-full ">
       <div className="mx-auto max-w-5xl">
         {/* Desktop: Table-like layout | Mobile: Card stack */}
         <div className="divide-border/50 hidden divide-y md:block">

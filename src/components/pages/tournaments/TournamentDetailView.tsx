@@ -10,6 +10,7 @@ import SectionWrapper from '@/components/layout/SectionWrapper';
 import { RulebookTab } from '@/components/pages/tournaments/tabs/RulebookTab';
 import { ScheduleTab } from '@/components/pages/tournaments/tabs/ScheduleTab';
 import { BracketTab } from '@/components/pages/tournaments/tabs/BracketTab';
+import { ParticipatedTeamsTab } from './tabs/ParticipatedTeamsTab';
 
 interface TournamentDetailViewProps {
   tournament: Tournament;
@@ -27,11 +28,8 @@ export const TournamentDetailView = ({
       case 'Rulebook':
         return <RulebookTab tournament={tournament} />;
       case 'Participated Teams':
-        return (
-          <div className="text-muted-foreground py-20 text-center">
-            Teams list coming soon...
-          </div>
-        );
+      case 'Participated Teams':
+        return <ParticipatedTeamsTab tournamentId={tournament.id} />;
       case 'Schedule':
         return <ScheduleTab tournament={tournament} />;
       case 'Bracket':
@@ -43,7 +41,7 @@ export const TournamentDetailView = ({
 
   return (
     <>
-      <div className=" mx-auto mt-8 mb-6 ">
+      <div className="mx-auto mt-8 mb-6">
         <TournamentTabs activeTab={activeTab} setActiveTab={setActiveTab} />
       </div>
 
