@@ -40,7 +40,8 @@ export default function RootLayout({
         <ScrollToTop />
         <Toaster
           containerStyle={{
-            zIndex: 9999999999999999999999999999999999999999999999999999999999999,
+            zIndex: 9999,
+            // top: 64,
           }}
           position="top-center"
           toastOptions={{

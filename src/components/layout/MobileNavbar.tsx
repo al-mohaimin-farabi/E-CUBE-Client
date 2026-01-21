@@ -104,7 +104,7 @@ const MobileNavbar = ({ isVisible }: MobileNavbarProps) => {
       <motion.nav
         animate={{ y: isVisible ? 0 : -64 }}
         transition={{ duration: 0.3 }}
-        className="layout-padding bg-card @container fixed top-0 right-0 left-0 z-[9999999999999999] flex h-16 items-center justify-between lg:hidden"
+        className="layout-padding bg-card @container fixed top-0 right-0 left-0 z-[1000] flex h-16 items-center justify-between lg:hidden"
       >
         <Link href="/">
           <Image
@@ -160,7 +160,7 @@ const MobileNavbar = ({ isVisible }: MobileNavbarProps) => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="fixed inset-0 z-99 bg-black/60 backdrop-blur-sm lg:hidden"
+              className="fixed inset-0 z-[1100] bg-black/60 backdrop-blur-sm lg:hidden"
               onClick={closeMenu}
             />
 
@@ -171,7 +171,7 @@ const MobileNavbar = ({ isVisible }: MobileNavbarProps) => {
               animate="open"
               exit="closed"
               transition={{ type: 'spring', stiffness: 400, damping: 40 }}
-              className="bg-card fixed top-0 right-0 bottom-0 z-999 w-80 max-w-[85vw] overflow-hidden shadow-2xl lg:hidden"
+              className="bg-card fixed top-0 right-0 bottom-0 z-[1200] w-80 max-w-[85vw] overflow-hidden shadow-2xl lg:hidden"
             >
               {/* Menu Content */}
               <div className="flex h-full flex-col pt-20">

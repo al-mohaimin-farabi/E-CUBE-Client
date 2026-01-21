@@ -51,7 +51,7 @@ export const MainContent = ({ children }: MainContentProps) => {
 
   return (
     <ScrollArea
-      className="relative z-[99999999999999999999999999999999999999999] h-screen w-full"
+      className="relative h-screen w-full"
       onScrollChange={handleScrollChange}
       viewportRef={viewportRef}
     >

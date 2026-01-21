@@ -104,7 +104,7 @@ const DesktopNav = ({ isVisible }: { isVisible: boolean }) => {
       <motion.nav
         animate={{ y: isVisible ? 0 : -64 }}
         transition={{ duration: 0.3 }}
-        className="layout-padding bg-card fixed top-0 right-0 left-0 z-[9999999999999999] hidden h-16 lg:block"
+        className="layout-padding bg-card fixed top-0 right-0 left-0 z-[1000] hidden h-16 lg:block"
       >
         <div className="container-wide flex h-full items-center justify-between">
           <Link href="/">

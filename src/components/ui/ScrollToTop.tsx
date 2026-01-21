@@ -55,7 +55,7 @@ export const ScrollToTop = () => {
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.8 }}
-          className="fixed right-6 bottom-6 z-[999999999999999999]"
+          className="fixed right-6 bottom-6 z-[1300]"
         >
           <Button
             onClick={scrollToTop}
