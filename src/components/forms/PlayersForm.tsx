@@ -4,7 +4,6 @@ import { useForm, useFieldArray } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { Plus, Trash2, Info, ArrowRight } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { InputField } from '@/components/ui/InputField';
 import { cn } from '@/lib/utils';
@@ -18,48 +17,21 @@ import {
 } from '@/redux/features/teamRegistration/teamRegistrationSlice';
 import toast from 'react-hot-toast';
 
-// Unified player schema with conditional validation
-const playerSchema = z
-  .object({
-    iglName: z.string().min(3, 'IGL Name must be at least 3 characters'),
-    fullName: z
-      .string()
-      .min(3, 'Full Name must be at least 3 characters')
-      .regex(/^[^0-9]+$/, 'Full Name cannot contain numbers'),
-    pubgmId: z.string().regex(/^\d{5,12}$/, 'PUBGM ID must be 5-12 digits'),
-    email: z.string().optional(),
-    phoneNumber: z.string().optional(),
-    discordId: z.string().optional(),
-    isCoLeader: z.boolean().optional(),
-  })
-  .superRefine((data, ctx) => {
-    if (data.isCoLeader === true) {
-      if (!data.email || !z.string().email().safeParse(data.email).success) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: 'Invalid email address',
-          path: ['email'],
-        });
-      }
-      if (
-        !data.phoneNumber ||
-        !/^(?:\+88|88)?(01[3-9]\d{8})$/.test(data.phoneNumber)
-      ) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: 'Invalid Bangladeshi phone number',
-          path: ['phoneNumber'],
-        });
-      }
-      if (!data.discordId || data.discordId.length < 3) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: 'Invalid Discord ID',
-          path: ['discordId'],
-        });
-      }
-    }
-  });
+// Player schema with all contact fields required
+const playerSchema = z.object({
+  igName: z.string().min(3, 'IG Name must be at least 3 characters'),
+  fullName: z
+    .string()
+    .min(3, 'Full Name must be at least 3 characters')
+    .regex(/^[^0-9]+$/, 'Full Name cannot contain numbers'),
+  pubgmId: z.string().regex(/^\d{5,12}$/, 'PUBGM ID must be 5-12 digits'),
+  email: z.string().email('Invalid email address'),
+  phoneNumber: z
+    .string()
+    .regex(/^(?:\+88|88)?(01[3-9]\d{8})$/, 'Invalid Bangladeshi phone number'),
+  discordId: z.string().min(3, 'Invalid Discord ID'),
+  isCoLeader: z.boolean().optional(),
+});
 
 const playersFormSchema = z.object({
   players: z
@@ -67,7 +39,7 @@ const playersFormSchema = z.object({
     .length(3, 'You must add exactly 3 players')
     .refine(
       (players) => players.filter((p) => p.isCoLeader).length === 1,
-      'You must select Co-Leader'
+      'You must select one player as Co-Leader'
     ),
   substitutes: z.array(playerSchema).max(2, 'Maximum 2 substitutes allowed'),
 });
@@ -75,7 +47,7 @@ const playersFormSchema = z.object({
 type PlayersFormValues = z.infer<typeof playersFormSchema>;
 
 const emptyPlayer: PlayerInfo = {
-  iglName: '',
+  igName: '',
   fullName: '',
   pubgmId: '',
   email: '',
@@ -137,12 +109,6 @@ export const PlayersForm = () => {
     // Unset all co-leaders first
     playerFields.forEach((_, i) => {
       setValue(`players.${i}.isCoLeader`, false);
-      // Clear contact fields for non-co-leaders
-      if (i !== index || currentlyCoLeader) {
-        setValue(`players.${i}.email`, '');
-        setValue(`players.${i}.phoneNumber`, '');
-        setValue(`players.${i}.discordId`, '');
-      }
     });
 
     // Set new co-leader if toggling on
@@ -152,7 +118,6 @@ export const PlayersForm = () => {
   };
 
   const onSubmit = (data: PlayersFormValues) => {
-    // Schema already validates co-leader selection and contact info
     dispatch(savePlayers(data.players));
     dispatch(saveSubstitutes(data.substitutes));
     dispatch(completeStep2());
@@ -184,8 +149,8 @@ export const PlayersForm = () => {
       <div className="flex items-start gap-3 rounded-[2px] border border-blue-500/30 bg-blue-500/10 p-4">
         <Info className="mt-0.5 h-5 w-5 shrink-0 text-blue-400" />
         <p className="text-sm text-blue-300">
-          You must select one player as Co-Leader. Substitutes can be added
-          later from your profile dashboard.
+          You must select one player as Co-Leader. All contact information is
+          required for every player and substitute.
         </p>
       </div>
 
@@ -222,14 +187,14 @@ export const PlayersForm = () => {
                 </label>
               </div>
 
-              {/* Basic Info (always shown) */}
+              {/* Basic Info */}
               <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                 <InputField
-                  label="IGL Name"
+                  label="IG Name"
                   placeholder="In-game name"
                   required
-                  registration={register(`players.${index}.iglName`)}
-                  error={errors.players?.[index]?.iglName?.message}
+                  registration={register(`players.${index}.igName`)}
+                  error={errors.players?.[index]?.igName?.message}
                   disabled={isLocked}
                 />
                 <InputField
@@ -250,43 +215,35 @@ export const PlayersForm = () => {
                 />
               </div>
 
-              {/* Contact Info (only for Co-Leader) */}
-              {isCoLeader && (
-                <div className="w-full space-y-4 border-t border-white/10 pt-4">
-                  <p className="text-muted-foreground text-xs">
-                    Contact information required for Co-Leader
-                  </p>
-                  <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-                    <InputField
-                      label="Email"
-                      type="email"
-                      placeholder="email@example.com"
-                      required
-                      className="w-full"
-                      registration={register(`players.${index}.email`)}
-                      error={errors.players?.[index]?.email?.message}
-                      disabled={isLocked}
-                    />
-                    <InputField
-                      label="Phone Number"
-                      type="tel"
-                      placeholder="01XXXXXXXXX"
-                      required
-                      registration={register(`players.${index}.phoneNumber`)}
-                      error={errors.players?.[index]?.phoneNumber?.message}
-                      disabled={isLocked}
-                    />
-                    <InputField
-                      label="Discord ID"
-                      placeholder="username#0000"
-                      required
-                      registration={register(`players.${index}.discordId`)}
-                      error={errors.players?.[index]?.discordId?.message}
-                      disabled={isLocked}
-                    />
-                  </div>
-                </div>
-              )}
+              {/* Contact Info (required for all players) */}
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+                <InputField
+                  label="Email"
+                  type="email"
+                  placeholder="email@example.com"
+                  required
+                  registration={register(`players.${index}.email`)}
+                  error={errors.players?.[index]?.email?.message}
+                  disabled={isLocked}
+                />
+                <InputField
+                  label="Phone Number"
+                  type="tel"
+                  placeholder="01XXXXXXXXX"
+                  required
+                  registration={register(`players.${index}.phoneNumber`)}
+                  error={errors.players?.[index]?.phoneNumber?.message}
+                  disabled={isLocked}
+                />
+                <InputField
+                  label="Discord ID"
+                  placeholder="username#0000"
+                  required
+                  registration={register(`players.${index}.discordId`)}
+                  error={errors.players?.[index]?.discordId?.message}
+                  disabled={isLocked}
+                />
+              </div>
             </div>
           );
         })}
@@ -338,14 +295,14 @@ export const PlayersForm = () => {
               )}
             </div>
 
-            {/* Basic Info only for substitutes */}
+            {/* Basic Info for substitutes */}
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
               <InputField
-                label="IGL Name"
+                label="IG Name"
                 placeholder="In-game name"
                 required
-                registration={register(`substitutes.${index}.iglName`)}
-                error={errors.substitutes?.[index]?.iglName?.message}
+                registration={register(`substitutes.${index}.igName`)}
+                error={errors.substitutes?.[index]?.igName?.message}
                 disabled={isLocked}
               />
               <InputField
@@ -365,11 +322,40 @@ export const PlayersForm = () => {
                 disabled={isLocked}
               />
             </div>
+
+            {/* Contact Info for substitutes (required) */}
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+              <InputField
+                label="Email"
+                type="email"
+                placeholder="email@example.com"
+                required
+                registration={register(`substitutes.${index}.email`)}
+                error={errors.substitutes?.[index]?.email?.message}
+                disabled={isLocked}
+              />
+              <InputField
+                label="Phone Number"
+                type="tel"
+                placeholder="01XXXXXXXXX"
+                required
+                registration={register(`substitutes.${index}.phoneNumber`)}
+                error={errors.substitutes?.[index]?.phoneNumber?.message}
+                disabled={isLocked}
+              />
+              <InputField
+                label="Discord ID"
+                placeholder="username#0000"
+                required
+                registration={register(`substitutes.${index}.discordId`)}
+                error={errors.substitutes?.[index]?.discordId?.message}
+                disabled={isLocked}
+              />
+            </div>
           </div>
         ))}
       </div>
 
-      {/* Navigation Buttons */}
       {/* Navigation Buttons */}
       <div className="space-y-4">
         {isLocked && (

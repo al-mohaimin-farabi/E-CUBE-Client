@@ -1,13 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-// Player info structure (contact info optional - only required for co-leader)
+// Player info structure (contact info required for all players)
 export interface PlayerInfo {
-  iglName: string;
+  igName: string;
   fullName: string;
   pubgmId: string;
-  email?: string;
-  phoneNumber?: string;
-  discordId?: string;
+  email: string;
+  phoneNumber: string;
+  discordId: string;
   isCoLeader?: boolean;
 }
 
@@ -32,6 +32,14 @@ export interface ManagerInfo {
   discordId: string;
 }
 
+// Coach info
+export interface CoachInfo {
+  fullName: string;
+  email: string;
+  phoneNumber: string;
+  discordId: string;
+}
+
 export interface RegistrationState {
   tournamentId: string | null;
   currentStep: number;
@@ -48,6 +56,10 @@ export interface RegistrationState {
   manager: ManagerInfo | null;
   hasManager: boolean;
 
+  // Step 3: Coach (optional)
+  coach: CoachInfo | null;
+  hasCoach: boolean;
+
   // Loading states
   isSubmitting: boolean;
 }
@@ -61,6 +73,8 @@ const initialState: RegistrationState = {
   substitutes: [],
   manager: null,
   hasManager: false,
+  coach: null,
+  hasCoach: false,
   isSubmitting: false,
 };
 
@@ -115,6 +129,12 @@ const teamRegistrationSlice = createSlice({
       state.hasManager = action.payload !== null;
     },
 
+    // Step 3: Save coach
+    saveCoach: (state, action: PayloadAction<CoachInfo | null>) => {
+      state.coach = action.payload;
+      state.hasCoach = action.payload !== null;
+    },
+
     // Complete step 3 (lock it)
     completeStep3: (state) => {
       if (!state.completedSteps.includes(3)) {
@@ -141,6 +161,7 @@ export const {
   saveSubstitutes,
   completeStep2,
   saveManager,
+  saveCoach,
   completeStep3,
   setSubmitting,
   resetRegistration,

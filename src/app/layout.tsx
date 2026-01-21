@@ -39,6 +39,9 @@ export default function RootLayout({
         </ReduxProvider>
         <ScrollToTop />
         <Toaster
+          containerStyle={{
+            zIndex: 9999999999999999999999999999999999999999999999999999999999999,
+          }}
           position="top-center"
           toastOptions={{
             style: {

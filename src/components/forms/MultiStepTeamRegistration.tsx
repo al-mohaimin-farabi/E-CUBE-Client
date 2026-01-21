@@ -20,7 +20,7 @@ interface MultiStepTeamRegistrationProps {
 const steps: Step[] = [
   { number: 1, title: 'Team Info', icon: Users },
   { number: 2, title: 'Players', icon: UserPlus },
-  { number: 3, title: 'Manager', icon: Briefcase },
+  { number: 3, title: 'Staff', icon: Briefcase },
 ];
 
 export const MultiStepTeamRegistration = ({
