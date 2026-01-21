@@ -1,8 +1,8 @@
 import { getTournaments } from '@/lib/data';
 import { TournamentDetailView } from '@/components/pages/tournaments/TournamentDetailView';
-import PageHeader from '@/components/common/PageHeader';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
+import PageHeader from '@/components/common/PageHeader';
 
 interface TournamentDetailPageProps {
   params: Promise<{ id: string }>;

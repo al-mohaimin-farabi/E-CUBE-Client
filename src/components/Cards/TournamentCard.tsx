@@ -27,7 +27,7 @@ const TournamentCard = ({ tournament, className }: TournamentCardProps) => {
             src={tournament.bannerImage}
             alt={tournament.title}
             width={365}
-            height={190}
+            height={200}
             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
         ) : (
