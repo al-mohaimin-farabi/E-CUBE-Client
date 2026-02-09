@@ -77,7 +77,7 @@ export const ImageDropzone = ({
   };
 
   return (
-    <div className={cn('space-y-4', className)}>
+    <div className={cn('@container space-y-4', className)}>
       <div className="mb-2 flex items-center justify-between">
         <label className="text-sm font-medium text-white">
           Team Logo<span className="ml-1 text-red-500">*</span>
@@ -85,7 +85,7 @@ export const ImageDropzone = ({
         <span className="text-sm font-medium text-white">Preview</span>
       </div>
 
-      <div className="flex h-[180px] gap-4">
+      <div className="gap-4 @[470px]:flex @[470px]:h-[180px]">
         {/* Upload Area */}
         <div
           onClick={triggerFileInput}
@@ -93,7 +93,7 @@ export const ImageDropzone = ({
           onDragLeave={handleDragLeave}
           onDrop={handleDrop}
           className={cn(
-            'border-border group flex flex-1 cursor-pointer flex-col items-center justify-center rounded-[2px] border-2 border-dashed bg-white/5 transition-all',
+            'border-border group flex flex-1 p-2 cursor-pointer flex-col items-center justify-center rounded-[2px] border-2 border-dashed bg-white/5 transition-all',
             isDragging && 'border-primary bg-primary/10',
             error && 'border-red-500',
             disabled && 'cursor-not-allowed opacity-50',
@@ -124,7 +124,7 @@ export const ImageDropzone = ({
         </div>
 
         {/* Preview Area */}
-        <div className="border-border relative flex w-[180px] items-center justify-center overflow-hidden rounded-[2px] border-2 border-dashed bg-white/5">
+        <div className="border-border relative mt-2 flex h-[180px] w-[180px] items-center justify-center overflow-hidden rounded-[2px] border-2 border-dashed bg-white/5 @[470px]:mt-0">
           {preview ? (
             <>
               <Image

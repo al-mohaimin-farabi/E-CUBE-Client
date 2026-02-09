@@ -16,7 +16,7 @@ export const TournamentRegisterClient = ({
   tournament,
 }: TournamentRegisterClientProps) => {
   return (
-    <main>
+    <main className="@container">
       <PageHeader
         className="min-h-[150px]! lg:min-h-[180px]!"
         title={
@@ -25,14 +25,14 @@ export const TournamentRegisterClient = ({
         titleOnly
         image="/assets/images/registerbg.png"
       />
-      <div className="container mt-10 mb-6 mx-auto grid grid-cols-1 gap-6 lg:grid-cols-2">
+      <div className="mx-auto mt-10 mb-6 grid grid-cols-1 gap-6 px-4 @[1024px]:grid-cols-2 @xl:container">
         {/* Form Section */}
         <div className="min-w-0 overflow-hidden">
           <MultiStepTeamRegistration tournamentId={tournament.id} />
         </div>
 
         {/* Info Section */}
-        <div className="order-first lg:order-last">
+        <div className="order-first @[1024px]:order-last">
           <Image
             src={'/assets/images/registerbanner.png'}
             width={565}
